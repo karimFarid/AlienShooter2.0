@@ -252,13 +252,13 @@ void Display(void) {
     glTranslatef(0.866025, 0.866025, 0.866025);
     glRotatef(90, 1, 0, 0);
     glColor3f(0.5f, 0.5f, 0.5f);
-    glutWireSphere(30, 25, 25);
+    glutWireSphere(80, 25, 25);
     glPopMatrix();
     
     glPushMatrix();
     glColor3f(0, 0, 0);
-    glTranslated(0, -30, 0);
-    glutSolidCube(70);
+    glScaled(15, 0.2, 15);
+    glutSolidCube(10);
     glPopMatrix();
     
     glFlush();
@@ -313,7 +313,12 @@ void Keyboard(unsigned char key, int x, int y) {
             camera.rotateY(-d);
 
             break;
-            
+        case 'q':
+            camera.moveY(d);
+            break;
+        case 'e':
+            camera.moveY(-d);
+            break;
             
         case 'p':
             std::cout << " eye x:  ";
