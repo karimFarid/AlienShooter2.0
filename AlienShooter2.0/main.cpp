@@ -3,7 +3,17 @@
 #include <iostream>
 #define DEG2RAD(a) (a * 0.0174532925)
 float rotAng;
-
+bool jump=false;
+int dir=0;
+float eyeX = 12.6336;
+float eyeY = 16.6755;
+float eyeZ = 0.4;
+float centerX = 11.6347;
+float centerY = 16.6283;
+float centerZ =  0.4;
+float upX = -0.0472866;
+float upY = 0.998881;
+float upZ = 0.0f;
 #define DEG2RAD(a) (a * 0.0174532925)
 
 
@@ -84,7 +94,7 @@ public:
     
     
     
-    Camera(float eyeX = 13.3429, float eyeY = 1.69232, float eyeZ = 0.4, float centerX = 12.344, float centerY = 1.64503, float centerZ =  0.4, float upX = -0.0472866, float upY = 0.998881, float upZ = 0.0f) {
+    Camera() {
         
         eye = Vector3f(eyeX, eyeY, eyeZ);
         
@@ -245,12 +255,6 @@ void Display(void) {
     glutWireSphere(30, 25, 25);
     glPopMatrix();
     
-    //    glPushMatrix();
-    //    glTranslatef(0.866025, 0.866025, 0.866025);
-    //    glRotatef(90, 1, 0, 0);
-    //    glColor3f(0.0f, 0.0f, 0.0f);
-    //    glutSolidSphere(15, 25, 25);
-    //    glPopMatrix();
     glPushMatrix();
     glColor3f(0, 0, 0);
     glTranslated(0, -30, 0);
@@ -262,54 +266,56 @@ void Display(void) {
 
 void Anim() {
     //rotAng += 1;
-    
+    if(jump){
+        if(dir ==1){
+            camera.moveY(0.1);
+            if (camera.eye.y>=24.666) {
+                dir=2;
+            }
+        }else if (dir == 2){
+            camera.moveY(-0.1);
+            if (camera.eye.y<=16.6755){
+                dir=0;
+                jump=false;
+            }
+
+        }
+        
+        //camera.moveY(d);
+    }
     glutPostRedisplay();
 }
 void Keyboard(unsigned char key, int x, int y) {
     
-    float d = 1;
-    
-    
-    
+    float d = 2;
     switch (key) {
             
         case 'w':
-            
-            camera.moveY(d);
+            camera.rotateX(d);
+
             
             break;
             
         case 's':
-            
-            camera.moveY(-d);
+            camera.rotateX(-d);
+
             
             break;
             
         case 'a':
             
-            camera.moveX(d);
-            
+            camera.rotateY(d);
+
             break;
             
         case 'd':
             
-            camera.moveX(-d);
-            
+            camera.rotateY(-d);
+
             break;
             
-        case 'q':
             
-            camera.moveZ(d);
-            
-            break;
-            
-        case 'e':
-            
-            camera.moveZ(-d);
-            
-            break;
-            
-        case ' ':
+        case 'p':
             std::cout << " eye x:  ";
             std::cout << camera.eye.x;
             std::cout << " eye y: ";
@@ -331,6 +337,11 @@ void Keyboard(unsigned char key, int x, int y) {
             
             break;
             
+        case ' ':
+            jump=true;
+            dir=1;
+            break;
+            
             
     }
     
@@ -342,33 +353,33 @@ void Keyboard(unsigned char key, int x, int y) {
 
 void Special(int key, int x, int y) {
     
-    float a = 1.0;
+    float a = 2.0;
     
     
     
     switch (key) {
             
         case GLUT_KEY_UP:
-            
-            camera.rotateX(a);
+            camera.moveZ(a);
+
             
             break;
             
         case GLUT_KEY_DOWN:
-            
-            camera.rotateX(-a);
+            camera.moveZ(-a);
+
             
             break;
             
         case GLUT_KEY_LEFT:
-            
-            camera.rotateY(a);
+            camera.moveX(a);
+
             
             break;
             
         case GLUT_KEY_RIGHT:
-            
-            camera.rotateY(-a);
+            camera.moveX(-a);
+
             
             break;
             
