@@ -1,5 +1,8 @@
-#include <GLUT/glut.h>
+#include <stdlib.h> 
+#include <glut.h>
 #include <math.h>
+#include "Model_3DS.h"
+#include "GLTexture.h"
 #include <iostream>
 #define DEG2RAD(a) (a * 0.0174532925)
 float rotAng;
@@ -190,8 +193,8 @@ public:
 
 
 Camera camera;
-
-void setupLights() {
+GLTexture tex_ground;
+/*void setupLights() {
     
     GLfloat ambient[] = { 0.7f, 0.7f, 0.7, 1.0f };
     
@@ -220,7 +223,7 @@ void setupLights() {
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightIntensity);
     
 }
-
+*/
 void setupCamera() {
     
     glMatrixMode(GL_PROJECTION);
@@ -240,11 +243,38 @@ void setupCamera() {
 }
 
 
+void RenderGround(){
+	glDisable(GL_LIGHTING);	// Disable lighting 
 
+	glColor3f(0.6, 0.6, 0.6);	// Dim the ground texture a bit
+
+	glEnable(GL_TEXTURE_2D);	// Enable 2D texturing
+
+	glBindTexture(GL_TEXTURE_2D, tex_ground.texture[0]);	// Bind the ground texture
+
+	glPushMatrix();
+	glBegin(GL_QUADS);
+	glNormal3f(0, 1, 0);	// Set quad normal direction.
+	glTexCoord2f(0, 0);		// Set tex coordinates ( Using (0,0) -> (5,5) with texture wrapping set to GL_REPEAT to simulate the ground repeated grass texture).
+	glVertex3f(-80, 0, -80);
+	glTexCoord2f(80, 0);
+	glVertex3f(80, 0, -80);
+	glTexCoord2f(80, 80);
+	glVertex3f(80, 0, 80);
+	glTexCoord2f(0, 80);
+	glVertex3f(-80, 0, 80);
+	glEnd();
+	glPopMatrix();
+
+	//glEnable(GL_LIGHTING);	// Enable lighting again for other entites coming throung the pipeline.
+
+	glColor3f(1, 1, 1);	// Set material back to white instead of grey used for the ground texture.
+    
+}
 void Display(void) {
     setupCamera();
     
-    setupLights();
+    //setupLights();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glPushMatrix();
@@ -260,12 +290,8 @@ void Display(void) {
     glColor3f(0.5f, 0.5f, 0.5f);
     glutWireSphere(80, 25, 25);
     glPopMatrix();
+	RenderGround();
     
-    glPushMatrix();
-    glColor3f(0, 0, 0);
-    glScaled(15, 0.2, 15);
-    glutSolidCube(10);
-    glPopMatrix();
     
     glFlush();
 }
@@ -395,6 +421,6 @@ int main(int argc, char** argv) {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-    
+    tex_ground.Load("Textures/ground.bmp");
     glutMainLoop();
 }
