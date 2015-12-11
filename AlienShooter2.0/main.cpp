@@ -265,7 +265,6 @@ void Display(void) {
 }
 
 void Anim() {
-    //rotAng += 1;
     if(jump){
         if(dir ==1){
             camera.moveY(0.1);
@@ -280,38 +279,27 @@ void Anim() {
             }
 
         }
-        
-        //camera.moveY(d);
-    }
+            }
     glutPostRedisplay();
 }
 void Keyboard(unsigned char key, int x, int y) {
     
     float d = 2;
     switch (key) {
-            
         case 'w':
             camera.rotateX(d);
-
-            
             break;
             
         case 's':
             camera.rotateX(-d);
-
-            
             break;
             
         case 'a':
-            
             camera.rotateY(d);
-
             break;
             
         case 'd':
-            
             camera.rotateY(-d);
-
             break;
         case 'q':
             camera.moveY(d);
@@ -339,61 +327,39 @@ void Keyboard(unsigned char key, int x, int y) {
             std::cout << camera.up.y;
             std::cout << " up z: ";
             std::cout << camera.up.z;
-            
             break;
             
         case ' ':
             jump=true;
             dir=1;
             break;
-            
-            
     }
-    
-    
-    
     glutPostRedisplay();
-    
 }
 
 void Special(int key, int x, int y) {
     
     float a = 2.0;
-    
-    
-    
     switch (key) {
             
         case GLUT_KEY_UP:
             camera.moveZ(a);
-
-            
             break;
             
         case GLUT_KEY_DOWN:
             camera.moveZ(-a);
-
-            
             break;
             
         case GLUT_KEY_LEFT:
             camera.moveX(a);
-
-            
             break;
             
         case GLUT_KEY_RIGHT:
             camera.moveX(-a);
-
-            
             break;
             
     }
-    
-    
-    
     glutPostRedisplay();
-    
 }
 
 
