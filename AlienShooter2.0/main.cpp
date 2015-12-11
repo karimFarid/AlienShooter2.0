@@ -247,6 +247,12 @@ void Display(void) {
     setupLights();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
+    glPushMatrix();
+    glTranslatef(camera.center.x, camera.center.y, camera.center.z);
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glScaled(0.001, 0.001, 0.001);
+    glutSolidSphere(5, 25, 25);
+    glPopMatrix();
     
     glPushMatrix();
     glTranslatef(0.866025, 0.866025, 0.866025);
