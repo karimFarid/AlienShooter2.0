@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3BD508A31C1CDA030047EA08 /* alien.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 3BD508A21C1CDA030047EA08 /* alien.bmp */; };
 		3BD508A51C1CDCB40047EA08 /* zlien.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 3BD508A41C1CDCB40047EA08 /* zlien.bmp */; };
+		3BD508A71C1CE3B70047EA08 /* blackwholebmp.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 3BD508A61C1CE3B70047EA08 /* blackwholebmp.bmp */; };
 		5F9E603D1C15A28400DABF75 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9E603C1C15A28400DABF75 /* AppDelegate.m */; };
 		5F9E60431C15A28400DABF75 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9E60421C15A28400DABF75 /* ViewController.m */; };
 		5F9E60451C15A28400DABF75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F9E60441C15A28400DABF75 /* Assets.xcassets */; };
@@ -46,6 +47,7 @@
 /* Begin PBXFileReference section */
 		3BD508A21C1CDA030047EA08 /* alien.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = alien.bmp; sourceTree = "<group>"; };
 		3BD508A41C1CDCB40047EA08 /* zlien.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = zlien.bmp; sourceTree = "<group>"; };
+		3BD508A61C1CE3B70047EA08 /* blackwholebmp.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = blackwholebmp.bmp; sourceTree = "<group>"; };
 		5F9E60381C15A28400DABF75 /* texturing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = texturing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F9E603B1C15A28400DABF75 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5F9E603C1C15A28400DABF75 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				3BD508A21C1CDA030047EA08 /* alien.bmp */,
+				3BD508A61C1CE3B70047EA08 /* blackwholebmp.bmp */,
 				3BD508A41C1CDCB40047EA08 /* zlien.bmp */,
 				7DAB8F9A1C1C6A0800119F31 /* ground.bmp */,
 				5FA30F7D1C15AC6C007AD2F3 /* earth-ConvertImage.bmp */,
@@ -285,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F9E60451C15A28400DABF75 /* Assets.xcassets in Resources */,
+				3BD508A71C1CE3B70047EA08 /* blackwholebmp.bmp in Resources */,
 				5F9E60481C15A28400DABF75 /* Main.storyboard in Resources */,
 				5FA30F7B1C15AA80007AD2F3 /* earth.bmp in Resources */,
 				5FA30F7E1C15AC6C007AD2F3 /* earth-ConvertImage.bmp in Resources */,

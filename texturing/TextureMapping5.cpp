@@ -8,7 +8,7 @@
 #define DEG2RAD(a) (a * 0.0174532925)
 
 GLfloat xRotated, yRotated, zRotated;
-GLuint   texture[5];
+GLuint   texture[6];
 float rotAng;
 bool jump=false;
 int dir=0;
@@ -41,7 +41,11 @@ void loadTextureFromFile(char *filename)
     }else if(filename[2]=='a'){
         glGenTextures(1, &texture[4]);               // Create The Texture
         glBindTexture(GL_TEXTURE_2D, texture[4]);
+    }else if(filename[2]=='b'){
+        glGenTextures(1, &texture[5]);               // Create The Texture
+        glBindTexture(GL_TEXTURE_2D, texture[5]);
     }
+
     else{
         glGenTextures(1, &texture[1]);               // Create The Texture
         glBindTexture(GL_TEXTURE_2D, texture[1]);
@@ -61,9 +65,9 @@ public:
     float x,y,z;
     int health;
     
-    void createAlien(float x, float y,float z){
+    void createAlien(float x,float z){
         this->x=x;
-        this->y=y;
+        this->y=0.2;
         this->z=z;
         health=1;
         drawAlien();
@@ -438,7 +442,7 @@ void Display(void) {
     glPopMatrix();
     
     Aliens a1;
-    a1.createAlien(-30, 0.2, 0);
+    a1.createAlien(-30, 0);
     a1.drawAlien();
     
     //    glTranslatef(2,0.0,-5);
@@ -452,8 +456,22 @@ void Display(void) {
     glPushMatrix();
     RenderGround();
     glPopMatrix();
+    
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[5]);
+    
+    glPushMatrix();
+    glColor3f(1, 1, 1);
+    GLUquadric *quadObj2 = gluNewQuadric();
+    gluQuadricTexture(quadObj2, true);
+    gluQuadricNormals(quadObj2, GLU_SMOOTH);
+    glTranslatef(0, 1, 0);
+    //glScaled(20, 20, 20);
+    gluSphere(quadObj2, 1, 20, 20);
+    gluDeleteQuadric(quadObj2);
+    glPopMatrix();
     glFlush();
-//    glFlush();
+
 }
 void Anim() {
    
@@ -504,10 +522,12 @@ int main(int argc, char** argv)
     char* filenamm = "./ground.bmp";
     char* filenama = "./zlien.bmp";
     char* filenamz = "./alien.bmp";
+    char* filenamb = "./blackwholebmp.bmp";
     loadTextureFromFile( filename );
     loadTextureFromFile( filenamm );
     loadTextureFromFile( filenama );
     loadTextureFromFile( filenamz );
+    loadTextureFromFile( filenamb );
     glutMainLoop();
     return 0;
 
