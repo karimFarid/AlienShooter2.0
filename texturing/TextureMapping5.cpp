@@ -14,10 +14,10 @@ bool jump=false;
 int dir=0;
 float eyeX = 12.6336;
 bool flag=false;
-float eyeY = 16.6755;
+float eyeY = 0.5;
 float eyeZ = 0.4;
 float centerX = 11.6347;
-float centerY = 16.6283;
+float centerY = 0.5;
 float centerZ =  0.4;
 float upX = -0.0472866;
 float upY = 0.998881;
@@ -73,6 +73,7 @@ public:
         glPushMatrix();
         glTranslatef(x,y,z);
         glRotatef(110, 0, 1, 0);
+        glScaled(0.04, 0.04, 0.04);
         
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, texture[3]);
@@ -437,7 +438,7 @@ void Display(void) {
     glPopMatrix();
     
     Aliens a1;
-    a1.createAlien(-30, 7, 0);
+    a1.createAlien(-30, 0.2, 0);
     a1.drawAlien();
     
     //    glTranslatef(2,0.0,-5);
