@@ -8,7 +8,7 @@
 #define DEG2RAD(a) (a * 0.0174532925)
 
 GLfloat xRotated, yRotated, zRotated;
-GLuint   texture[2];
+GLuint   texture[5];
 float rotAng;
 bool jump=false;
 int dir=0;
@@ -35,7 +35,14 @@ void loadTextureFromFile(char *filename)
     if (filename[2]=='e') {
         glGenTextures(1, &texture[0]);               // Create The Texture
         glBindTexture(GL_TEXTURE_2D, texture[0]);
-    }else{
+    }else if(filename[2]=='z'){
+        glGenTextures(1, &texture[3]);               // Create The Texture
+        glBindTexture(GL_TEXTURE_2D, texture[3]);
+    }else if(filename[2]=='a'){
+        glGenTextures(1, &texture[4]);               // Create The Texture
+        glBindTexture(GL_TEXTURE_2D, texture[4]);
+    }
+    else{
         glGenTextures(1, &texture[1]);               // Create The Texture
         glBindTexture(GL_TEXTURE_2D, texture[1]);
     }
@@ -49,6 +56,58 @@ void loadTextureFromFile(char *filename)
     
     glTexImage2D(GL_TEXTURE_2D, 0, 3, theTexMap.GetNumCols(), theTexMap.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE, theTexMap.ImageData() );
 }
+class Aliens{
+public:
+    float x,y,z;
+    int health;
+    
+    void createAlien(float x, float y,float z){
+        this->x=x;
+        this->y=y;
+        this->z=z;
+        health=1;
+        drawAlien();
+    }
+    
+    void drawAlien(){
+        glPushMatrix();
+        glTranslatef(x,y,z);
+        glRotatef(110, 0, 1, 0);
+        
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texture[3]);
+        
+        glPushMatrix();
+        glColor3f(1, 1, 1);
+        GLUquadric *quadObj = gluNewQuadric();
+        gluQuadricTexture(quadObj, true);
+        gluQuadricNormals(quadObj, GLU_SMOOTH);
+        glTranslatef(0,6,0);
+        glRotatef(270, 1, 0, 0);
+        gluSphere(quadObj, 3, 25, 25);
+        gluDeleteQuadric(quadObj);
+        glPopMatrix();
+        
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texture[4]);
+        
+        glPushMatrix();
+        glColor3f(1, 1, 1);
+        GLUquadric *quadObj2 = gluNewQuadric();
+        gluQuadricTexture(quadObj2, true);
+        gluQuadricNormals(quadObj2, GLU_SMOOTH);
+        glTranslatef(0,0,0);
+        glScaled(1, 3, 1);
+        gluSphere(quadObj2, 3, 25, 25);
+        gluDeleteQuadric(quadObj2);
+        glPopMatrix();
+        
+        glPopMatrix();
+        
+
+        
+    }
+};
 class Vector3f {
     
 public:
@@ -352,15 +411,6 @@ void RenderGround(){
     glColor3f(1, 1, 1);	// Set material back to white instead of grey used for the ground texture.
     
 }
-void keyboard (unsigned char key, int x, int y){
-    switch (key) {
-        case 27:
-            exit(0);
-            break;
-        default:
-            break;
-    }
-}
 void Display(void) {
     setupCamera();
     
@@ -386,7 +436,9 @@ void Display(void) {
     gluDeleteQuadric(quadObj);
     glPopMatrix();
     
-    
+    Aliens a1;
+    a1.createAlien(-30, 7, 0);
+    a1.drawAlien();
     
     //    glTranslatef(2,0.0,-5);
     //    glutSolidSphere(1, 10, 20);
@@ -449,8 +501,12 @@ int main(int argc, char** argv)
     gluLookAt(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
     char* filename = "./earth-ConvertImage.bmp";
     char* filenamm = "./ground.bmp";
+    char* filenama = "./zlien.bmp";
+    char* filenamz = "./alien.bmp";
     loadTextureFromFile( filename );
     loadTextureFromFile( filenamm );
+    loadTextureFromFile( filenama );
+    loadTextureFromFile( filenamz );
     glutMainLoop();
     return 0;
 
