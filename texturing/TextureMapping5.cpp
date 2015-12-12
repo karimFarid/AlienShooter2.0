@@ -13,6 +13,7 @@ float rotAng;
 bool jump=false;
 int dir=0;
 float eyeX = 12.6336;
+bool flag=false;
 float eyeY = 16.6755;
 float eyeZ = 0.4;
 float centerX = 11.6347;
@@ -22,7 +23,6 @@ float upX = -0.0472866;
 float upY = 0.998881;
 float upZ = 0.0f;
 #define DEG2RAD(a) (a * 0.0174532925)
-
 void loadTextureFromFile(char *filename)
 {
     glShadeModel(GL_FLAT);
@@ -146,8 +146,6 @@ public:
         
     }
     
-    
-    
     void moveY(float d) {
         
         eye = eye + up.unit() * d;
@@ -156,19 +154,16 @@ public:
         
     }
     
-    
-    
     void moveZ(float d) {
         
-        Vector3f view = (center - eye).unit();
+            
+            eye = eye + -d;
+            
+            center = center + -d;
         
-        eye = eye + view * d;
-        
-        center = center + view * d;
+
         
     }
-    
-    
     
     void rotateX(float a) {
         
@@ -184,8 +179,6 @@ public:
         
     }
     
-    
-    
     void rotateY(float a) {
         
         Vector3f view = (center - eye).unit();
@@ -199,8 +192,6 @@ public:
         center = eye + view;
         
     }
-    
-    
     
     void look() {
         
@@ -283,33 +274,6 @@ void Keyboard(unsigned char key, int x, int y) {
         case 'd':
             camera.rotateY(-d);
             break;
-        case 'q':
-            camera.moveY(d);
-            break;
-        case 'e':
-            camera.moveY(-d);
-            break;
-            
-        case 'p':
-            std::cout << " eye x:  ";
-            std::cout << camera.eye.x;
-            std::cout << " eye y: ";
-            std::cout << camera.eye.y;
-            std::cout << " eye z: ";
-            std::cout << camera.eye.z;
-            std::cout << " center x: ";
-            std::cout << camera.center.x;
-            std::cout << " center y: ";
-            std::cout << camera.center.y;
-            std::cout << " center z: ";
-            std::cout << camera.center.z;
-            std::cout << " up x: ";
-            std::cout << camera.up.x;
-            std::cout << " up y: ";
-            std::cout << camera.up.y;
-            std::cout << " up z: ";
-            std::cout << camera.up.z;
-            break;
             
         case ' ':
             jump=true;
@@ -322,32 +286,38 @@ void Special(int key, int x, int y) {
     
     float a = 2.0;
     switch (key) {
+         
             
         case GLUT_KEY_UP:
-            if (camera.eye.z==20) {
-                return;
+            if (camera.center.x>-50) {
+                camera.moveZ(a);
+                break;
             }
-            camera.moveZ(a);
-            break;
+           
             
         case GLUT_KEY_DOWN:
+            if (camera.center.x<50) {
             camera.moveZ(-a);
             break;
-            
+            }
         case GLUT_KEY_LEFT:
-            camera.moveX(a);
-            break;
+            if (camera.center.z<79) {
+                camera.moveX(a);
+                break;
+            }
             
         case GLUT_KEY_RIGHT:
-            camera.moveX(-a);
+            if (camera.center.z>-79) {
+                camera.moveX(-a);
+                break;
+            }
             break;
+          
             
     }
     glutPostRedisplay();
 }
-
-void resizeWindow(int x, int y)
-{
+void resizeWindow(int x, int y){
     if (y == 0 || x == 0) return;  //Nothing is visible then, so return
     //Set a new projection matrix
     glMatrixMode(GL_PROJECTION);
@@ -359,7 +329,6 @@ void resizeWindow(int x, int y)
     glMatrixMode(GL_MODELVIEW);
     glViewport(0,0,x,y);  //Use the whole window for rendering
 }
-
 void RenderGround(){
     glDisable(GL_LIGHTING);	// Disable lighting
     glColor3f(0.6, 0.6, 0.6);	// Dim the ground texture a bit
@@ -383,8 +352,7 @@ void RenderGround(){
     glColor3f(1, 1, 1);	// Set material back to white instead of grey used for the ground texture.
     
 }
-void keyboard (unsigned char key, int x, int y)
-{
+void keyboard (unsigned char key, int x, int y){
     switch (key) {
         case 27:
             exit(0);
@@ -413,10 +381,12 @@ void Display(void) {
     gluQuadricTexture(quadObj, true);
     gluQuadricNormals(quadObj, GLU_SMOOTH);
     glTranslatef(0.866025, 0.866025, 0.866025);
-    glScaled(14, 14, 14);
+    glScaled(20, 20, 20);
     gluSphere(quadObj, 10, 20, 20);
     gluDeleteQuadric(quadObj);
     glPopMatrix();
+    
+    
     
     //    glTranslatef(2,0.0,-5);
     //    glutSolidSphere(1, 10, 20);

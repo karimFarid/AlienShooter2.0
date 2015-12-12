@@ -20,6 +20,7 @@
 		5F9E60761C15A3F100DABF75 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F9E60751C15A3F100DABF75 /* OpenGL.framework */; };
 		5FA30F7B1C15AA80007AD2F3 /* earth.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 5FA30F7A1C15AA80007AD2F3 /* earth.bmp */; };
 		5FA30F7E1C15AC6C007AD2F3 /* earth-ConvertImage.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 5FA30F7D1C15AC6C007AD2F3 /* earth-ConvertImage.bmp */; };
+		7D753FAD1C1C9223001023C6 /* Debug in Resources */ = {isa = PBXBuildFile; fileRef = 7D753F981C1C9223001023C6 /* Debug */; settings = {ASSET_TAGS = (); }; };
 		7DAB8F9B1C1C6A0800119F31 /* ground.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 7DAB8F9A1C1C6A0800119F31 /* ground.bmp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		5FA30F7A1C15AA80007AD2F3 /* earth.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = earth.bmp; sourceTree = "<group>"; };
 		5FA30F7C1C15AB43007AD2F3 /* earth.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = earth.raw; sourceTree = "<group>"; };
 		5FA30F7D1C15AC6C007AD2F3 /* earth-ConvertImage.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "earth-ConvertImage.bmp"; sourceTree = "<group>"; };
+		7D753F981C1C9223001023C6 /* Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Debug; path = ../OpenGLMeshLoader/Debug; sourceTree = "<group>"; };
 		7DAB8F9A1C1C6A0800119F31 /* ground.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = ground.bmp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,6 +105,7 @@
 				5F9E60511C15A28500DABF75 /* texturingTests */,
 				5F9E605C1C15A28500DABF75 /* texturingUITests */,
 				5F9E60391C15A28400DABF75 /* Products */,
+				7D753F981C1C9223001023C6 /* Debug */,
 			);
 			sourceTree = "<group>";
 		};
@@ -280,6 +283,7 @@
 				5FA30F7B1C15AA80007AD2F3 /* earth.bmp in Resources */,
 				5FA30F7E1C15AC6C007AD2F3 /* earth-ConvertImage.bmp in Resources */,
 				7DAB8F9B1C1C6A0800119F31 /* ground.bmp in Resources */,
+				7D753FAD1C1C9223001023C6 /* Debug in Resources */,
 				5F9E60711C15A35400DABF75 /* salt_on_spoon.bmp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -377,6 +381,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = System/Library/Frameworks/;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -420,6 +425,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = System/Library/Frameworks/;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
