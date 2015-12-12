@@ -1,0 +1,557 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5F9E603D1C15A28400DABF75 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9E603C1C15A28400DABF75 /* AppDelegate.m */; };
+		5F9E60431C15A28400DABF75 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9E60421C15A28400DABF75 /* ViewController.m */; };
+		5F9E60451C15A28400DABF75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F9E60441C15A28400DABF75 /* Assets.xcassets */; };
+		5F9E60481C15A28400DABF75 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F9E60461C15A28400DABF75 /* Main.storyboard */; };
+		5F9E60531C15A28500DABF75 /* texturingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9E60521C15A28500DABF75 /* texturingTests.m */; };
+		5F9E605E1C15A28500DABF75 /* texturingUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9E605D1C15A28500DABF75 /* texturingUITests.m */; };
+		5F9E60701C15A35400DABF75 /* RgbImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F9E606C1C15A35400DABF75 /* RgbImage.cpp */; };
+		5F9E60711C15A35400DABF75 /* salt_on_spoon.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 5F9E606E1C15A35400DABF75 /* salt_on_spoon.bmp */; };
+		5F9E60721C15A35400DABF75 /* TextureMapping5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F9E606F1C15A35400DABF75 /* TextureMapping5.cpp */; };
+		5F9E60741C15A3E100DABF75 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F9E60731C15A3E100DABF75 /* GLUT.framework */; };
+		5F9E60761C15A3F100DABF75 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F9E60751C15A3F100DABF75 /* OpenGL.framework */; };
+		5FA30F7B1C15AA80007AD2F3 /* earth.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 5FA30F7A1C15AA80007AD2F3 /* earth.bmp */; };
+		5FA30F7E1C15AC6C007AD2F3 /* earth-ConvertImage.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 5FA30F7D1C15AC6C007AD2F3 /* earth-ConvertImage.bmp */; };
+		7DAB8F9B1C1C6A0800119F31 /* ground.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 7DAB8F9A1C1C6A0800119F31 /* ground.bmp */; settings = {ASSET_TAGS = (); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5F9E604F1C15A28500DABF75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F9E60301C15A28400DABF75 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5F9E60371C15A28400DABF75;
+			remoteInfo = texturing;
+		};
+		5F9E605A1C15A28500DABF75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F9E60301C15A28400DABF75 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5F9E60371C15A28400DABF75;
+			remoteInfo = texturing;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		5F9E60381C15A28400DABF75 /* texturing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = texturing.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F9E603B1C15A28400DABF75 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		5F9E603C1C15A28400DABF75 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		5F9E60411C15A28400DABF75 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		5F9E60421C15A28400DABF75 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		5F9E60441C15A28400DABF75 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5F9E60471C15A28400DABF75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5F9E60491C15A28400DABF75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5F9E604E1C15A28500DABF75 /* texturingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = texturingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F9E60521C15A28500DABF75 /* texturingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = texturingTests.m; sourceTree = "<group>"; };
+		5F9E60541C15A28500DABF75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5F9E60591C15A28500DABF75 /* texturingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = texturingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F9E605D1C15A28500DABF75 /* texturingUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = texturingUITests.m; sourceTree = "<group>"; };
+		5F9E605F1C15A28500DABF75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5F9E606C1C15A35400DABF75 /* RgbImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RgbImage.cpp; sourceTree = "<group>"; };
+		5F9E606D1C15A35400DABF75 /* RgbImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RgbImage.h; sourceTree = "<group>"; };
+		5F9E606E1C15A35400DABF75 /* salt_on_spoon.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = salt_on_spoon.bmp; sourceTree = "<group>"; };
+		5F9E606F1C15A35400DABF75 /* TextureMapping5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureMapping5.cpp; sourceTree = "<group>"; };
+		5F9E60731C15A3E100DABF75 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		5F9E60751C15A3F100DABF75 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		5FA30F7A1C15AA80007AD2F3 /* earth.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = earth.bmp; sourceTree = "<group>"; };
+		5FA30F7C1C15AB43007AD2F3 /* earth.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = earth.raw; sourceTree = "<group>"; };
+		5FA30F7D1C15AC6C007AD2F3 /* earth-ConvertImage.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "earth-ConvertImage.bmp"; sourceTree = "<group>"; };
+		7DAB8F9A1C1C6A0800119F31 /* ground.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = ground.bmp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5F9E60351C15A28400DABF75 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F9E60761C15A3F100DABF75 /* OpenGL.framework in Frameworks */,
+				5F9E60741C15A3E100DABF75 /* GLUT.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F9E604B1C15A28500DABF75 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F9E60561C15A28500DABF75 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5F9E602F1C15A28400DABF75 = {
+			isa = PBXGroup;
+			children = (
+				5F9E60751C15A3F100DABF75 /* OpenGL.framework */,
+				5F9E60731C15A3E100DABF75 /* GLUT.framework */,
+				5F9E603A1C15A28400DABF75 /* texturing */,
+				5F9E60511C15A28500DABF75 /* texturingTests */,
+				5F9E605C1C15A28500DABF75 /* texturingUITests */,
+				5F9E60391C15A28400DABF75 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5F9E60391C15A28400DABF75 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5F9E60381C15A28400DABF75 /* texturing.app */,
+				5F9E604E1C15A28500DABF75 /* texturingTests.xctest */,
+				5F9E60591C15A28500DABF75 /* texturingUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5F9E603A1C15A28400DABF75 /* texturing */ = {
+			isa = PBXGroup;
+			children = (
+				5F9E603B1C15A28400DABF75 /* AppDelegate.h */,
+				5F9E603C1C15A28400DABF75 /* AppDelegate.m */,
+				5F9E60411C15A28400DABF75 /* ViewController.h */,
+				5F9E60421C15A28400DABF75 /* ViewController.m */,
+				5F9E60441C15A28400DABF75 /* Assets.xcassets */,
+				5F9E60461C15A28400DABF75 /* Main.storyboard */,
+				5F9E60491C15A28400DABF75 /* Info.plist */,
+				5F9E603E1C15A28400DABF75 /* Supporting Files */,
+			);
+			path = texturing;
+			sourceTree = "<group>";
+		};
+		5F9E603E1C15A28400DABF75 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7DAB8F9A1C1C6A0800119F31 /* ground.bmp */,
+				5FA30F7D1C15AC6C007AD2F3 /* earth-ConvertImage.bmp */,
+				5FA30F7C1C15AB43007AD2F3 /* earth.raw */,
+				5FA30F7A1C15AA80007AD2F3 /* earth.bmp */,
+				5F9E606C1C15A35400DABF75 /* RgbImage.cpp */,
+				5F9E606D1C15A35400DABF75 /* RgbImage.h */,
+				5F9E606E1C15A35400DABF75 /* salt_on_spoon.bmp */,
+				5F9E606F1C15A35400DABF75 /* TextureMapping5.cpp */,
+				5F9E606B1C15A31300DABF75 /* New Group */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5F9E60511C15A28500DABF75 /* texturingTests */ = {
+			isa = PBXGroup;
+			children = (
+				5F9E60521C15A28500DABF75 /* texturingTests.m */,
+				5F9E60541C15A28500DABF75 /* Info.plist */,
+			);
+			path = texturingTests;
+			sourceTree = "<group>";
+		};
+		5F9E605C1C15A28500DABF75 /* texturingUITests */ = {
+			isa = PBXGroup;
+			children = (
+				5F9E605D1C15A28500DABF75 /* texturingUITests.m */,
+				5F9E605F1C15A28500DABF75 /* Info.plist */,
+			);
+			path = texturingUITests;
+			sourceTree = "<group>";
+		};
+		5F9E606B1C15A31300DABF75 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5F9E60371C15A28400DABF75 /* texturing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5F9E60621C15A28500DABF75 /* Build configuration list for PBXNativeTarget "texturing" */;
+			buildPhases = (
+				5F9E60341C15A28400DABF75 /* Sources */,
+				5F9E60351C15A28400DABF75 /* Frameworks */,
+				5F9E60361C15A28400DABF75 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = texturing;
+			productName = texturing;
+			productReference = 5F9E60381C15A28400DABF75 /* texturing.app */;
+			productType = "com.apple.product-type.application";
+		};
+		5F9E604D1C15A28500DABF75 /* texturingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5F9E60651C15A28500DABF75 /* Build configuration list for PBXNativeTarget "texturingTests" */;
+			buildPhases = (
+				5F9E604A1C15A28500DABF75 /* Sources */,
+				5F9E604B1C15A28500DABF75 /* Frameworks */,
+				5F9E604C1C15A28500DABF75 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5F9E60501C15A28500DABF75 /* PBXTargetDependency */,
+			);
+			name = texturingTests;
+			productName = texturingTests;
+			productReference = 5F9E604E1C15A28500DABF75 /* texturingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5F9E60581C15A28500DABF75 /* texturingUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5F9E60681C15A28500DABF75 /* Build configuration list for PBXNativeTarget "texturingUITests" */;
+			buildPhases = (
+				5F9E60551C15A28500DABF75 /* Sources */,
+				5F9E60561C15A28500DABF75 /* Frameworks */,
+				5F9E60571C15A28500DABF75 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5F9E605B1C15A28500DABF75 /* PBXTargetDependency */,
+			);
+			name = texturingUITests;
+			productName = texturingUITests;
+			productReference = 5F9E60591C15A28500DABF75 /* texturingUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5F9E60301C15A28400DABF75 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "youmna salah";
+				TargetAttributes = {
+					5F9E60371C15A28400DABF75 = {
+						CreatedOnToolsVersion = 7.1;
+					};
+					5F9E604D1C15A28500DABF75 = {
+						CreatedOnToolsVersion = 7.1;
+						TestTargetID = 5F9E60371C15A28400DABF75;
+					};
+					5F9E60581C15A28500DABF75 = {
+						CreatedOnToolsVersion = 7.1;
+						TestTargetID = 5F9E60371C15A28400DABF75;
+					};
+				};
+			};
+			buildConfigurationList = 5F9E60331C15A28400DABF75 /* Build configuration list for PBXProject "texturing" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5F9E602F1C15A28400DABF75;
+			productRefGroup = 5F9E60391C15A28400DABF75 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5F9E60371C15A28400DABF75 /* texturing */,
+				5F9E604D1C15A28500DABF75 /* texturingTests */,
+				5F9E60581C15A28500DABF75 /* texturingUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5F9E60361C15A28400DABF75 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F9E60451C15A28400DABF75 /* Assets.xcassets in Resources */,
+				5F9E60481C15A28400DABF75 /* Main.storyboard in Resources */,
+				5FA30F7B1C15AA80007AD2F3 /* earth.bmp in Resources */,
+				5FA30F7E1C15AC6C007AD2F3 /* earth-ConvertImage.bmp in Resources */,
+				7DAB8F9B1C1C6A0800119F31 /* ground.bmp in Resources */,
+				5F9E60711C15A35400DABF75 /* salt_on_spoon.bmp in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F9E604C1C15A28500DABF75 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F9E60571C15A28500DABF75 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5F9E60341C15A28400DABF75 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F9E60431C15A28400DABF75 /* ViewController.m in Sources */,
+				5F9E603D1C15A28400DABF75 /* AppDelegate.m in Sources */,
+				5F9E60721C15A35400DABF75 /* TextureMapping5.cpp in Sources */,
+				5F9E60701C15A35400DABF75 /* RgbImage.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F9E604A1C15A28500DABF75 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F9E60531C15A28500DABF75 /* texturingTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F9E60551C15A28500DABF75 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F9E605E1C15A28500DABF75 /* texturingUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5F9E60501C15A28500DABF75 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5F9E60371C15A28400DABF75 /* texturing */;
+			targetProxy = 5F9E604F1C15A28500DABF75 /* PBXContainerItemProxy */;
+		};
+		5F9E605B1C15A28500DABF75 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5F9E60371C15A28400DABF75 /* texturing */;
+			targetProxy = 5F9E605A1C15A28500DABF75 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5F9E60461C15A28400DABF75 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5F9E60471C15A28400DABF75 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5F9E60601C15A28500DABF75 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		5F9E60611C15A28500DABF75 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		5F9E60631C15A28500DABF75 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = texturing/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = com.texturing;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		5F9E60641C15A28500DABF75 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = texturing/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = com.texturing;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		5F9E60661C15A28500DABF75 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = texturingTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.texturingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/texturing.app/Contents/MacOS/texturing";
+			};
+			name = Debug;
+		};
+		5F9E60671C15A28500DABF75 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = texturingTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.texturingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/texturing.app/Contents/MacOS/texturing";
+			};
+			name = Release;
+		};
+		5F9E60691C15A28500DABF75 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = texturingUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.texturingUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = texturing;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		5F9E606A1C15A28500DABF75 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = texturingUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.texturingUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = texturing;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5F9E60331C15A28400DABF75 /* Build configuration list for PBXProject "texturing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F9E60601C15A28500DABF75 /* Debug */,
+				5F9E60611C15A28500DABF75 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5F9E60621C15A28500DABF75 /* Build configuration list for PBXNativeTarget "texturing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F9E60631C15A28500DABF75 /* Debug */,
+				5F9E60641C15A28500DABF75 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5F9E60651C15A28500DABF75 /* Build configuration list for PBXNativeTarget "texturingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F9E60661C15A28500DABF75 /* Debug */,
+				5F9E60671C15A28500DABF75 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5F9E60681C15A28500DABF75 /* Build configuration list for PBXNativeTarget "texturingUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F9E60691C15A28500DABF75 /* Debug */,
+				5F9E606A1C15A28500DABF75 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5F9E60301C15A28400DABF75 /* Project object */;
+}
