@@ -204,22 +204,22 @@ void house(){
     glScaled(1, 0.5, 1);
     RenderHouse();
     glPopMatrix();
-    //front right
-    glPushMatrix();
-    glColor3f(1, 1, 1);	// Dim the ground texture a bit
-    glScaled(0.3, 0.5, 0.3);
-    glTranslatef(16.75, 0, 5);
-    glRotated(90, 0, 1, 0);
-    RenderHouse();
-    glPopMatrix();
-    //front left
-    glPushMatrix();
-    glColor3f(1, 1, 1);	// Dim the ground texture a bit
-    glScaled(0.3, 0.5, 0.3);
-    glTranslatef(16.75, 0, 16.75);
-    glRotated(90, 0, 1, 0);
-    RenderHouse();
-    glPopMatrix();
+//    //front right
+//    glPushMatrix();
+//    glColor3f(1, 1, 1);	// Dim the ground texture a bit
+//    glScaled(0.3, 0.5, 0.3);
+//    glTranslatef(16.75, 0, 5);
+//    glRotated(90, 0, 1, 0);
+//    RenderHouse();
+//    glPopMatrix();
+//    //front left
+//    glPushMatrix();
+//    glColor3f(1, 1, 1);	// Dim the ground texture a bit
+//    glScaled(0.3, 0.5, 0.3);
+//    glTranslatef(16.75, 0, 16.75);
+//    glRotated(90, 0, 1, 0);
+//    RenderHouse();
+//    glPopMatrix();
     //back inside
     glPushMatrix();
     glColor3f(0, 1, 1);	// Dim the ground texture a bit
@@ -376,48 +376,57 @@ void Special(int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_UP:
             if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
-//                if (player.eye.x>70 && player.eye.x<86.5 && player.eye.z<70 && player.eye.z>65) {
-//                    if (player.center.x>70 && player.center.z<75 && player.center.x<86.5 && player.center.z>70) {
+                
+                if (!(player.eye.x>74 && player.eye.x<76 && player.eye.z<72 && player.eye.z>75)
+                   && !(player.eye.x<78 && player.eye.x>75.5 && player.eye.z<70 && player.eye.z>67)
+                    && !(player.eye.x<71.8 && player.eye.x>75.2 && player.eye.z>71.2 && player.eye.z<74)
+                    ) {
+                    
+                    if (!(player.center.x>76 && player.center.z<75  && player.center.z>71)
+                        && !(player.center.x>75 && player.center.x<77.5 && player.center.z<71  && player.center.z>68)
+                        && !(player.center.x>71 && player.center.x<74.7 && player.center.z<75  && player.center.z>71.8)
+                        ) {
                         player.moveZ(a);
-//                    }
-//                }
+                    }
+                }
             }
             break;
-       case GLUT_KEY_DOWN:
-            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
-            player.moveZ(-a);
-            }
-            break;
-        case GLUT_KEY_LEFT:
-            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79 ) {
-                player.moveX(a);
-            }
-            break;
-        case GLUT_KEY_RIGHT:
-            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
-                player.moveX(-a);
-            }
-            break;
+//       case GLUT_KEY_DOWN:
+//            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
+//            player.moveZ(-a);
+//            }
+//            break;
+//        case GLUT_KEY_LEFT:
+//            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79 ) {
+//                player.moveX(a);
+//            }
+//            break;
+//        case GLUT_KEY_RIGHT:
+//            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
+//                player.moveX(-a);
+//            }
+//            break;
     }
     glutPostRedisplay();
 }
 void Mouse(int button, int state, int x, int y) {
-    switch (button) {
-        case GLUT_LEFT_BUTTON:
-            if (bullets>0) {
-                bullets--;
-                std::cout << bullets;
-                //KILL ALIENS HERE
-            }
-            break;
-        case GLUT_RIGHT_BUTTON:
-            if (player.center.x>70 && player.center.z<75 && player.center.x<86.5 && player.center.z>70) {
-                std::cout << "Reloaded!!";
-                bullets=10;
-            }
-            break;
+    if(state== GLUT_UP){
+        switch (button) {
+            case GLUT_LEFT_BUTTON:
+                if (bullets>0) {
+                    bullets--;
+                    std::cout << bullets;
+                    //KILL ALIENS HERE
+                }
+                break;
+            case GLUT_RIGHT_BUTTON:
+                if (player.center.x>70 && player.center.z<75 && player.center.x<86.5 && player.center.z>70) {
+                    std::cout << "Reloaded!!";
+                    bullets=10;
+                }
+                break;
+        }
     }
-    
     glutPostRedisplay();
 }
 void resizeWindow(int x, int y){
