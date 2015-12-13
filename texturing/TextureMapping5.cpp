@@ -2,6 +2,7 @@
 #include <math.h>
 #include <string.h>
 #include <iostream>
+#include <sstream>
 #include <GLUT/glut.h>
 #include <vector>
 #include "RgbImage.h"
@@ -26,6 +27,15 @@ float fire=0;
 int bullets=10;
 int shift=0;
 float shift2=-0.014;
+int score=0;
+bool boss=false;
+bool iboss=false;
+int bosshits=0;
+bool over=false;
+int aliensattacked=0;
+int afreq=10;
+int bfreq=60;
+
 #define DEG2RAD(a) (a * 0.0174532925)
 
 void loadTextureFromFile(char *filename){
@@ -330,7 +340,6 @@ public:
     
 };
 std::vector<Bullet> bullet;
-
 bool collisionDetector(float bx,float by,float bz,float ax,float ay,float az){
     int ibx=(int) bx;
     int iby=(int) by;
@@ -389,7 +398,25 @@ void setupCamera() {
     player.look();
     
 }
+void Timer(int value) {
+    for (int i=0; i<blackHoles.size(); i++){
+        Aliens a;
+        a.createAlien(i);
+        aliens.push_back(a);
+    }
+    glutPostRedisplay();
+    glutTimerFunc(afreq * 1000, Timer, 0);
+}
+void Timer2(int value) {
+    BlackHoles b;
+    b.createBlackHole(-5, 1, -5+shift);
+    blackHoles.push_back(b);
+    glutPostRedisplay();
+    shift+=10;
+    glutTimerFunc(bfreq * 1000, Timer2, 0);
+}
 void Keyboard(unsigned char key, int x, int y) {
+    if (!over) {
     float d = 2;
     switch (key) {
         case 'w':
@@ -408,10 +435,40 @@ void Keyboard(unsigned char key, int x, int y) {
             jump=true;
             dir=1;
             break;
+        case 'r':
+            blackHoles.clear();
+            aliens.clear();
+             jump=false;
+             dir=0;
+             eyeX = 75.89;
+             eyeY = 1;
+             eyeZ = 72.7;
+             centerX = 75.22;
+             centerY = 1;
+             centerZ =  71.96;
+             upX = -0.0472866;
+             upY = 0.998881;
+             upZ = 0.0f;
+             fire=0;
+             bullets=10;
+             shift=0;
+             shift2=-0.014;
+             score=0;
+             boss=false;
+             iboss=false;
+             bosshits=0;
+             over=false;
+             aliensattacked=0;
+             afreq=10;
+             bfreq=60;
+            Timer2(1);
+            Timer(1);
     }
     glutPostRedisplay();
+    }
 }
 void Special(int key, int x, int y) {
+    if(!over){
     float a = 0.5;
     switch (key) {
         case GLUT_KEY_UP:
@@ -447,8 +504,11 @@ void Special(int key, int x, int y) {
 //            break;
     }
     glutPostRedisplay();
+    }
 }
 void Mouse(int button, int state, int x, int y) {
+    if(!over){
+        if (state== GLUT_UP) {
     switch (button) {
         case GLUT_LEFT_BUTTON:
             if (bullets>0) {
@@ -466,7 +526,9 @@ void Mouse(int button, int state, int x, int y) {
             }
             break;
     }
+        }
     glutPostRedisplay();
+    }
 }
 void resizeWindow(int x, int y){
     if (y == 0 || x == 0) return;  //Nothing is visible then, so return
@@ -503,23 +565,7 @@ void RenderGround(){
     glColor3f(1, 1, 1);	// Set material back to white instead of grey used for the ground texture.
     
 }
-void Timer(int value) {
-    for (int i=0; i<blackHoles.size(); i++){
-        Aliens a;
-        a.createAlien(i);
-        aliens.push_back(a);
-    }
-    glutPostRedisplay();
-    glutTimerFunc(5 * 1000, Timer, 0);
-}
-void Timer2(int value) {
-    BlackHoles b;
-    b.createBlackHole(-5, 1, -5+shift);
-    blackHoles.push_back(b);
-    glutPostRedisplay();
-    shift+=10;
-    glutTimerFunc(60 * 1000, Timer2, 0);
-}
+
 void sky(){
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
@@ -550,12 +596,54 @@ void drawString (void * font, std::string s, float x, float y, float z){
     for (i = 0; i < s.length(); i++)
         glutBitmapCharacter (font, s[i]);
 }
+std::string Convert (float number){
+    std::ostringstream buff;
+    buff<<number;
+    return buff.str();
+}
+void drawText(const char *text , int length , int x ,int y){
+    
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0.0, 800, 0.0, 600);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+    glColor3f(1.5f, 0.5f, 0.5f);//needs to be called before RasterPos
+    glRasterPos2i(x, y);
+    //  glColor3f(1.0f, 1.0f, 0.0f);
+    std::string s = text;
+    void * font = GLUT_BITMAP_HELVETICA_18;
+    
+    for (std::string::iterator i = s.begin(); i != s.end(); ++i)
+    {
+        char c = *i;
+        //this does nothing, color is fixed for Bitmaps when calling glRasterPos
+        //  glColor3f(1.0, 0.0, 1.0);
+        glutBitmapCharacter(font, c);
+    }
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    
+    glPopMatrix();
+    glEnable(GL_TEXTURE_2D);
+    
+}
 void Display(void) {
     setupCamera();
     setupLights();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // glLoadIdentity();
-    
+    if(!over){
+    std :: string score1;
+    score1="Score: "+Convert(score);
+    drawText(score1.data(), score1.size(), 670, 550);
+    score1="Bullets left: "+Convert(bullets);
+    drawText(score1.data(), score1.size(), 670, 525);
+    score1="Aliens In house: "+Convert(aliensattacked);
+    drawText(score1.data(), score1.size(), 670, 500);
     
     //    drawString(GLUT_BITMAP_HELVETICA_18, "Bullets ", -2, 0, -6);
     //    s = std::to_string(bs);
@@ -572,30 +660,53 @@ void Display(void) {
     for (int i=0; i<bullet.size(); i++) {
         bullet.at(i).drawBullet();
     }
-    
-    for (int i=0; i<blackHoles.size(); i++) {
-        blackHoles.at(i).drawBlackHole();
+    if(!boss){
+        for (int i=0; i<blackHoles.size(); i++) {
+            blackHoles.at(i).drawBlackHole();
+        }
+        for (int i=0; i<aliens.size(); i++) {
+            aliens.at(i).drawAlien();
+        }
+    }else{
+        if (!iboss) {
+            aliens.clear();
+            blackHoles.clear();
+            BlackHoles b;
+            b.createBlackHole(-5, 1, -5);
+            blackHoles.push_back(b);
+            shift=0;
+            shift2=-0.014;
+            Aliens a;
+            a.createAlien(0);
+            aliens.push_back(a);
+            iboss=true;
+        }else{
+            glPushMatrix();
+            glScaled(3, 3, 3);
+            blackHoles.at(0).drawBlackHole();
+            aliens.at(0).drawAlien();
+            glPopMatrix();
+        }
     }
-    
-    
-    for (int i=0; i<aliens.size(); i++) {
-        aliens.at(i).drawAlien();
-    }
-    
-    
-    
     glPushMatrix();
     glTranslatef(75, 0, 75);
     glRotated(135, 0, 1, 0);
     house();
     glPopMatrix();
-    
-    
-    
+    }else{
+        std :: string score1;
+        score1="Gamer Over! ";
+        drawText(score1.data(), score1.size(), 370, 550);
+        score1="Your final Score: "+Convert(score);
+        drawText(score1.data(), score1.size(), 370, 525);
+        score1="Press R to play again. ";
+        drawText(score1.data(), score1.size(), 370, 500);
+    }
     glFlush();
     
 }
 void Anim() {
+    if (!over) {
     fire+=0.1;
     if (fire>100) {
         fire=0;
@@ -619,21 +730,54 @@ void Anim() {
     for (int i=0; i<aliens.size(); i++) {
         aliens.at(i).x+=0.1;
         aliens.at(i).z+=0.1+ (shift2*aliens.at(i).blackhole);
+        if (aliens.at(i).x>71 && aliens.at(i).z>71 && aliens.at(i).y>0) {
+            aliensattacked++;
+            aliens.at(i).y=-10;
+            if (aliensattacked==3) {
+                over=true;
+            }
+        }
     }
     for (int i=0; i<bullet.size(); i++) {
         bullet.at(i).x+=bullet.at(i).xbar;
         bullet.at(i).y+=bullet.at(i).ybar;
         bullet.at(i).z+=bullet.at(i).zbar;
     }
-    
+    if(!boss){
     for (int i =0; i<bullet.size(); i++) {
         for (int j=0; j<aliens.size(); j++) {
             if(collisionDetector(bullet.at(i).x, bullet.at(i).y, bullet.at(i).z, aliens.at(j).x, aliens.at(j).y, aliens.at(j).z)||collisionDetector(bullet.at(i).x+1, bullet.at(i).y+1, bullet.at(i).z+1, aliens.at(j).x, aliens.at(j).y, aliens.at(j).z)||collisionDetector(bullet.at(i).x-1, bullet.at(i).y-1, bullet.at(i).z-1, aliens.at(j).x, aliens.at(j).y, aliens.at(j).z)||collisionDetector(bullet.at(i).x+1, bullet.at(i).y, bullet.at(i).z, aliens.at(j).x, aliens.at(j).y, aliens.at(j).z)||collisionDetector(bullet.at(i).x, bullet.at(i).y+1, bullet.at(i).z, aliens.at(j).x, aliens.at(j).y, aliens.at(j).z)||collisionDetector(bullet.at(i).x, bullet.at(i).y, bullet.at(i).z+1, aliens.at(j).x, aliens.at(j).y, aliens.at(j).z)){
                 aliens.at(j).y=-10;
+                bullet.at(j).y=-10;
+                score+=10;
+                if(score%50==0){
+                    boss=true;
+                }
+            }
+        }
+    }
+    }else{
+        for (int i =0; i<bullet.size(); i++) {
+            if(collisionDetector(bullet.at(i).x, bullet.at(i).y, bullet.at(i).z, aliens.at(0).x, aliens.at(0).y, aliens.at(0).z)){
+                bosshits++;
+                if(bosshits==3){
+                    boss=false;
+                    iboss=false;
+                    bosshits=0;
+                    score+=2;
+                    if (afreq>2) {
+                        afreq--;
+                    }
+                    if (bfreq>10) {
+                        bfreq-=5;
+                    }
+                    shift+=10;
+                }
             }
         }
     }
     glutPostRedisplay();
+    }
 }
 int main(int argc, char** argv){
     glutInit(&argc, argv);
