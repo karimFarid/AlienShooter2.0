@@ -22,7 +22,7 @@ float centerZ =  71.96;
 float upX = -0.0472866;
 float upY = 0.998881;
 float upZ = 0.0f;
-int fire=0;
+float fire=0;
 int bullets=10;
 int shift=0;
 float shift2=-0.014;
@@ -252,7 +252,7 @@ void house(){
     glScaled(1, 0.5, 1);
     RenderHouse();
     glPopMatrix();
-    glColor3f(0, 0, 1);
+    //    glColor3f(0, 0, 1);
     
 }
 class Player {
@@ -299,10 +299,50 @@ public:
         gluLookAt(eye.x, eye.y, eye.z,center.x, center.y, center.z,up.x, up.y, up.z);
     }
 };
+Player player;
 class Bullet{
+public:
+    float x;
+    float y;
+    float z;
+    float xbar;
+    float ybar;
+    float zbar;
+    Bullet(float rx,float ry,float rz){
+        this->x=player.center.x;
+        this->y=player.center.y;
+        this->z=player.center.z;
+        xbar=rx;
+        ybar=ry;
+        zbar=rz;
+    }
+    void drawBullet(){
+        glPushMatrix();
+        glTranslated(x, y, z);
+        glPushMatrix();
+        glColor3f(1, 1, 1);
+        glRotated(90, 0, 1, 0);
+        glScaled(0.009, 0.09, 0.09);
+        gluCylinder(gluNewQuadric(), 1, 1, 2, 10, 10);
+        glPopMatrix();
+        glPopMatrix();
+    }
     
 };
-Player player;
+std::vector<Bullet> bullet;
+
+bool collisionDetector(float bx,float by,float bz,float ax,float ay,float az){
+    int ibx=(int) bx;
+    int iby=(int) by;
+    int ibz=(int) bz;
+    int iax=(int) ax;
+    int iay=(int) ay;
+    int iaz=(int) az;
+    if (ibx==iax && iby==iay && ibz==iaz) {
+        return true;
+    }
+    return false;
+}
 void setupLights() {
     
     GLfloat ambient[] = { 0.7f, 0.7f, 0.7, 1.0f };
@@ -376,7 +416,6 @@ void Special(int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_UP:
             if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
-                
                 if (!(player.eye.x>74 && player.eye.x<76 && player.eye.z<72 && player.eye.z>75)
                    && !(player.eye.x<78 && player.eye.x>75.5 && player.eye.z<70 && player.eye.z>67)
                     && !(player.eye.x<71.8 && player.eye.x>75.2 && player.eye.z>71.2 && player.eye.z<74)
@@ -410,22 +449,22 @@ void Special(int key, int x, int y) {
     glutPostRedisplay();
 }
 void Mouse(int button, int state, int x, int y) {
-    if(state== GLUT_UP){
-        switch (button) {
-            case GLUT_LEFT_BUTTON:
-                if (bullets>0) {
-                    bullets--;
-                    std::cout << bullets;
-                    //KILL ALIENS HERE
-                }
-                break;
-            case GLUT_RIGHT_BUTTON:
-                if (player.center.x>70 && player.center.z<75 && player.center.x<86.5 && player.center.z>70) {
-                    std::cout << "Reloaded!!";
-                    bullets=10;
-                }
-                break;
-        }
+    switch (button) {
+        case GLUT_LEFT_BUTTON:
+            if (bullets>0) {
+                bullets--;
+                std::cout << bullets;
+                Vector3f view = (player.center - player.eye).unit();
+                Bullet b = *new Bullet(view.x,view.y,view.z);
+                bullet.push_back(b);
+            }
+            break;
+        case GLUT_RIGHT_BUTTON:
+            if (player.center.x>70 && player.center.z<75 && player.center.x<86.5 && player.center.z>70) {
+                std::cout << "Reloaded!!";
+                bullets=10;
+            }
+            break;
     }
     glutPostRedisplay();
 }
@@ -502,9 +541,7 @@ void aim(){
     glScaled(0.001, 0.001, 0.001);
     glutSolidSphere(5, 25, 25);
     glPopMatrix();
-    glPushMatrix();
-    RenderGround();
-    glPopMatrix();
+    
 }
 void drawString (void * font, std::string s, float x, float y, float z){
     unsigned int i;
@@ -515,20 +552,26 @@ void drawString (void * font, std::string s, float x, float y, float z){
 }
 void Display(void) {
     setupCamera();
-    
     setupLights();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // glLoadIdentity();
     
     
-//    drawString(GLUT_BITMAP_HELVETICA_18, "Bullets ", -2, 0, -6);
-//    s = std::to_string(bs);
-//    drawString(GLUT_BITMAP_HELVETICA_18, s, -0.18, 0, -6);
+    //    drawString(GLUT_BITMAP_HELVETICA_18, "Bullets ", -2, 0, -6);
+    //    s = std::to_string(bs);
+    //    drawString(GLUT_BITMAP_HELVETICA_18, s, -0.18, 0, -6);
     
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
     sky();
     aim();
+    glPushMatrix();
+    RenderGround();
+    glPopMatrix();
+    
+    for (int i=0; i<bullet.size(); i++) {
+        bullet.at(i).drawBullet();
+    }
     
     for (int i=0; i<blackHoles.size(); i++) {
         blackHoles.at(i).drawBlackHole();
@@ -553,6 +596,7 @@ void Display(void) {
     
 }
 void Anim() {
+    fire+=0.1;
     if (fire>100) {
         fire=0;
     }
@@ -575,6 +619,19 @@ void Anim() {
     for (int i=0; i<aliens.size(); i++) {
         aliens.at(i).x+=0.1;
         aliens.at(i).z+=0.1+ (shift2*aliens.at(i).blackhole);
+    }
+    for (int i=0; i<bullet.size(); i++) {
+        bullet.at(i).x+=bullet.at(i).xbar;
+        bullet.at(i).y+=bullet.at(i).ybar;
+        bullet.at(i).z+=bullet.at(i).zbar;
+    }
+    
+    for (int i =0; i<bullet.size(); i++) {
+        for (int j=0; j<aliens.size(); j++) {
+            if(collisionDetector(bullet.at(i).x, bullet.at(i).y, bullet.at(i).z, aliens.at(j).x, aliens.at(j).y, aliens.at(j).z)||collisionDetector(bullet.at(i).x+1, bullet.at(i).y+1, bullet.at(i).z+1, aliens.at(j).x, aliens.at(j).y, aliens.at(j).z)||collisionDetector(bullet.at(i).x-1, bullet.at(i).y-1, bullet.at(i).z-1, aliens.at(j).x, aliens.at(j).y, aliens.at(j).z)||collisionDetector(bullet.at(i).x+1, bullet.at(i).y, bullet.at(i).z, aliens.at(j).x, aliens.at(j).y, aliens.at(j).z)||collisionDetector(bullet.at(i).x, bullet.at(i).y+1, bullet.at(i).z, aliens.at(j).x, aliens.at(j).y, aliens.at(j).z)||collisionDetector(bullet.at(i).x, bullet.at(i).y, bullet.at(i).z+1, aliens.at(j).x, aliens.at(j).y, aliens.at(j).z)){
+                aliens.at(j).y=-10;
+            }
+        }
     }
     glutPostRedisplay();
 }
