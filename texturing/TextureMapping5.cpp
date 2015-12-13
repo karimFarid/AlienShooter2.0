@@ -8,23 +8,22 @@
 #define DEG2RAD(a) (a * 0.0174532925)
 
 GLfloat xRotated, yRotated, zRotated;
-GLuint   texture[2];
+GLuint   texture[3];
 float rotAng;
 bool jump=false;
 int dir=0;
 float eyeX = 12.6336;
 bool flag=false;
-float eyeY = 16.6755;
+float eyeY = 0.5;
 float eyeZ = 0.4;
 float centerX = 11.6347;
-float centerY = 16.6283;
+float centerY = 0.5;
 float centerZ =  0.4;
 float upX = -0.0472866;
 float upY = 0.998881;
 float upZ = 0.0f;
 #define DEG2RAD(a) (a * 0.0174532925)
-void loadTextureFromFile(char *filename)
-{
+void loadTextureFromFile(char *filename){
     glShadeModel(GL_FLAT);
     glEnable(GL_DEPTH_TEST);
    
@@ -35,9 +34,12 @@ void loadTextureFromFile(char *filename)
     if (filename[2]=='e') {
         glGenTextures(1, &texture[0]);               // Create The Texture
         glBindTexture(GL_TEXTURE_2D, texture[0]);
-    }else{
+    }else if(filename[2]=='g'){
         glGenTextures(1, &texture[1]);               // Create The Texture
         glBindTexture(GL_TEXTURE_2D, texture[1]);
+    }else{
+        glGenTextures(1, &texture[2]);               // Create The Texture
+        glBindTexture(GL_TEXTURE_2D, texture[2]);
     }
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -116,6 +118,87 @@ public:
     }
     
 };
+
+void RenderHouse(){
+    glDisable(GL_LIGHTING);	// Disable lighting
+    glEnable(GL_TEXTURE_2D);	// Enable 2D texturing
+    glBindTexture(GL_TEXTURE_2D, texture[2]);	// Bind the ground texture
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glNormal3f(0, 1, 0);	// Set quad normal direction.
+    glTexCoord2f(0, 0);		// Set tex coordinates ( Using (0,0) -> (5,5) with texture wrapping set to GL_REPEAT to simulate the ground repeated grass texture).
+    glVertex3f(0, 0, 0);
+    glTexCoord2f(0, 5);
+    glVertex3f(0, 5, 0);
+    glTexCoord2f(5, 5);
+    glVertex3f(5, 5, 0);
+    glTexCoord2f(5, 0);
+    glVertex3f(5, 0, 0);
+    glEnd();
+    glPopMatrix();
+    //glEnable(GL_LIGHTING);	// Enable lighting again for other entites coming throung the pipeline.
+    glColor3f(1, 1, 1);	// Set material back to white instead of grey used for the ground texture.
+    
+}
+void house(){
+    
+    glPushMatrix();
+    glColor3f(1, 1, 1);	// Dim the ground texture a bit
+    glScaled(1, 0.5, 1);
+    RenderHouse();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(1, 1, 1);	// Dim the ground texture a bit
+    glScaled(0.3, 0.5, 0.3);
+    glTranslatef(16.75, 0, 5);
+    glRotated(90, 0, 1, 0);
+    RenderHouse();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(1, 1, 1);	// Dim the ground texture a bit
+    glScaled(0.3, 0.5, 0.3);
+    glTranslatef(16.75, 0, 16.75);
+    glRotated(90, 0, 1, 0);
+    RenderHouse();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(0, 1, 1);	// Dim the ground texture a bit
+    glScaled(1, 0.5, 1);
+    glTranslatef(0.1, 0, 5);
+    glRotated(90, 0, 1, 0);
+    RenderHouse();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(1, 1, 1);	// Dim the ground texture a bit
+    glScaled(1, 0.5, 1);
+    glTranslatef(0, 0, 5);
+    glRotated(90, 0, 1, 0);
+    RenderHouse();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(1, 1, 1);	// Dim the ground texture a bit;
+    glScaled(1, 0.5, 1);
+    glTranslatef(0, 5, 0);
+    glRotated(90, 1, 0, 0);
+    RenderHouse();
+    glPopMatrix();
+    
+    
+    glPushMatrix();
+    glColor3f(1, 1, 1);
+    glTranslatef(0, 0, 5);
+    glScaled(1, 0.5, 1);
+    RenderHouse();
+    glPopMatrix();
+    glColor3f(0, 0, 1);
+    
+}
+
 class Camera {
     
 public:
@@ -155,11 +238,12 @@ public:
     }
     
     void moveZ(float d) {
-        
             
-            eye = eye + -d;
+            Vector3f view = (center - eye).unit();
             
-            center = center + -d;
+            eye = eye + view * d;
+            
+            center = center + view * d;
         
 
         
@@ -255,6 +339,7 @@ void setupCamera() {
     camera.look();
     
 }
+
 void Keyboard(unsigned char key, int x, int y) {
     
     float d = 2;
@@ -284,7 +369,7 @@ void Keyboard(unsigned char key, int x, int y) {
 }
 void Special(int key, int x, int y) {
     
-    float a = 2.0;
+    float a = 0.5;
     switch (key) {
          
             
@@ -352,15 +437,6 @@ void RenderGround(){
     glColor3f(1, 1, 1);	// Set material back to white instead of grey used for the ground texture.
     
 }
-void keyboard (unsigned char key, int x, int y){
-    switch (key) {
-        case 27:
-            exit(0);
-            break;
-        default:
-            break;
-    }
-}
 void Display(void) {
     setupCamera();
     
@@ -399,6 +475,8 @@ void Display(void) {
     glPushMatrix();
     RenderGround();
     glPopMatrix();
+    
+    house();
     glFlush();
 //    glFlush();
 }
@@ -447,10 +525,12 @@ int main(int argc, char** argv)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-    char* filename = "./earth-ConvertImage.bmp";
-    char* filenamm = "./ground.bmp";
-    loadTextureFromFile( filename );
-    loadTextureFromFile( filenamm );
+    char* filename1 = "./earth-ConvertImage.bmp";
+    char* filename2 = "./ground.bmp";
+    char* filename3 = "./bricks.bmp";
+    loadTextureFromFile( filename1 );
+    loadTextureFromFile( filename2 );
+    loadTextureFromFile( filename3 );
     glutMainLoop();
     return 0;
 
