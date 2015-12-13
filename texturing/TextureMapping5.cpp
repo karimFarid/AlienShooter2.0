@@ -22,6 +22,7 @@ float centerZ =  0.4;
 float upX = -0.0472866;
 float upY = 0.998881;
 float upZ = 0.0f;
+int fire=0;
 
 int shift=0;
 float shift2=-0.014;
@@ -213,6 +214,7 @@ public:
     }
     
 };
+Vector3f vector;
 void RenderHouse(){
     glDisable(GL_LIGHTING);	// Disable lighting
     glEnable(GL_TEXTURE_2D);	// Enable 2D texturing
@@ -546,16 +548,9 @@ void Timer2(int value) {
     shift+=10;
     glutTimerFunc(60 * 1000, Timer2, 0);
 }
-void Display(void) {
-    setupCamera();
-    
-    setupLights();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   // glLoadIdentity();
-    
+void sky(){
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
-    
     glPushMatrix();
     glColor3f(1, 1, 1);
     GLUquadric *quadObj = gluNewQuadric();
@@ -566,6 +561,35 @@ void Display(void) {
     gluSphere(quadObj, 10, 20, 20);
     gluDeleteQuadric(quadObj);
     glPopMatrix();
+}
+void aim(){
+    glPushMatrix();
+    glTranslatef(camera.center.x, camera.center.y, camera.center.z);
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glScaled(0.001, 0.001, 0.001);
+    glutSolidSphere(5, 25, 25);
+    glPopMatrix();
+    glPushMatrix();
+    RenderGround();
+    glPopMatrix();
+}
+void Display(void) {
+    setupCamera();
+    
+    setupLights();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   // glLoadIdentity();
+    
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[0]);
+    vector = (camera.center - camera.eye).unit();
+    if(!((vector*fire).x==-30&&(vector*fire).z==0)){
+        Aliens a1;
+        a1.createAlien(0);
+        a1.drawAlien();
+    }
+    sky();
+    aim();
     
     for (int i=0; i<blackHoles.size(); i++) {
         blackHoles.at(i).drawBlackHole();
@@ -577,15 +601,6 @@ void Display(void) {
     }
     
 
-    glPushMatrix();
-    glTranslatef(camera.center.x, camera.center.y, camera.center.z);
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glScaled(0.001, 0.001, 0.001);
-    glutSolidSphere(5, 25, 25);
-    glPopMatrix();
-    glPushMatrix();
-    RenderGround();
-    glPopMatrix();
     
     glPushMatrix();
     glTranslatef(75, 0, 75);
@@ -599,7 +614,10 @@ void Display(void) {
 
 }
 void Anim() {
-   
+    if (fire>100) {
+        fire=0;
+    }
+    fire++;
     if(jump){
         if(dir ==1){
             camera.moveY(0.1);
