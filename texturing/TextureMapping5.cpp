@@ -3,6 +3,7 @@
 #include <string.h>
 #include <iostream>
 #include <GLUT/glut.h>
+#include <vector>
 #include "RgbImage.h"
 #define GLUT_KEY_ESCAPE 27
 #define DEG2RAD(a) (a * 0.0174532925)
@@ -21,7 +22,9 @@ float centerZ =  0.4;
 float upX = -0.0472866;
 float upY = 0.998881;
 float upZ = 0.0f;
+
 #define DEG2RAD(a) (a * 0.0174532925)
+
 void loadTextureFromFile(char *filename){
     glShadeModel(GL_FLAT);
     glEnable(GL_DEPTH_TEST);
@@ -60,24 +63,50 @@ void loadTextureFromFile(char *filename){
     
     glTexImage2D(GL_TEXTURE_2D, 0, 3, theTexMap.GetNumCols(), theTexMap.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE, theTexMap.ImageData() );
 }
+class BlackHoles{
+public:
+    float x,y,z;
+    
+    void createBlackHole(float x,float y,float z){
+        this->x=x;
+        this->y=y;
+        this->z=z;
+    }
+    void drawBlackHole(){
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texture[5]);
+        
+        glPushMatrix();
+        glColor3f(1, 1, 1);
+        GLUquadric *quadObj2 = gluNewQuadric();
+        gluQuadricTexture(quadObj2, true);
+        gluQuadricNormals(quadObj2, GLU_SMOOTH);
+        glTranslatef(x, y, z);
+        gluSphere(quadObj2, 1, 20, 20);
+        gluDeleteQuadric(quadObj2);
+        glPopMatrix();
+    }
+};
+std::vector<BlackHoles> blackHoles;
 class Aliens{
 public:
     float x,y,z;
     int health;
+    int blackhole;
     
-    void createAlien(float x,float z){
-        this->x=x;
-        this->y=0.2;
-        this->z=z;
-        health=1;
-        drawAlien();
+    void createAlien(int blackhole){
+        x=blackHoles.at(blackhole).x;
+        y=blackHoles.at(blackhole).y - 0.8;
+        z=blackHoles.at(blackhole).z;
+        health=100;
+        this->blackhole=blackhole;
     }
     
     void drawAlien(){
         glPushMatrix();
         glTranslatef(x,y,z);
         glRotatef(110, 0, 1, 0);
-        glScaled(0.04, 0.04, 0.04);
+        glScaled(0.08, 0.08, 0.08);
         
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, texture[3]);
@@ -113,6 +142,8 @@ public:
         
     }
 };
+std::vector<Aliens> aliens;
+
 class Vector3f {
     
 public:
@@ -496,6 +527,20 @@ void RenderGround(){
     glColor3f(1, 1, 1);	// Set material back to white instead of grey used for the ground texture.
     
 }
+void Timer(int value) {
+    Aliens a;
+    a.createAlien(0);
+    aliens.push_back(a);
+    glutPostRedisplay();
+    glutTimerFunc(5 * 1000, Timer, 0);
+}
+void Timer2(int value) {
+    BlackHoles b;
+    b.createBlackHole(-5, 1, -5);
+    blackHoles.push_back(b);
+    glutPostRedisplay();
+    glutTimerFunc(60 * 1000, Timer, 0);
+}
 void Display(void) {
     setupCamera();
     
@@ -506,10 +551,6 @@ void Display(void) {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
     
-    //    glRotatef(yRotated, 0, 1, 0);
-    //    glRotatef(zRotated, 0, 0, 1);
-    //    glutSolidTeapot(1);
-    //    glRotated(90, 1, 0, 0);
     glPushMatrix();
     glColor3f(1, 1, 1);
     GLUquadric *quadObj = gluNewQuadric();
@@ -521,12 +562,16 @@ void Display(void) {
     gluDeleteQuadric(quadObj);
     glPopMatrix();
     
-    Aliens a1;
-    a1.createAlien(-30, 0);
-    a1.drawAlien();
+    for (int i=0; i<blackHoles.size(); i++) {
+        blackHoles.at(i).drawBlackHole();
+    }
+
     
-    //    glTranslatef(2,0.0,-5);
-    //    glutSolidSphere(1, 10, 20);
+    for (int i=0; i<aliens.size(); i++) {
+        aliens.at(i).drawAlien();
+    }
+    
+
     glPushMatrix();
     glTranslatef(camera.center.x, camera.center.y, camera.center.z);
     glColor3f(1.0f, 0.0f, 0.0f);
@@ -543,19 +588,8 @@ void Display(void) {
     house();
     glPopMatrix();
     
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texture[5]);
     
-    glPushMatrix();
-    glColor3f(1, 1, 1);
-    GLUquadric *quadObj2 = gluNewQuadric();
-    gluQuadricTexture(quadObj2, true);
-    gluQuadricNormals(quadObj2, GLU_SMOOTH);
-    glTranslatef(-5, 1, -5);
-    //glScaled(20, 20, 20);
-    gluSphere(quadObj2, 1, 20, 20);
-    gluDeleteQuadric(quadObj2);
-    glPopMatrix();
+    
     glFlush();
 
 }
@@ -564,17 +598,21 @@ void Anim() {
     if(jump){
         if(dir ==1){
             camera.moveY(0.1);
-            if (camera.eye.y>=24.666) {
+            if (camera.eye.y>=5) {
                 dir=2;
             }
         }else if (dir == 2){
             camera.moveY(-0.1);
-            if (camera.eye.y<=16.6755){
+            if (camera.eye.y<=1){
                 dir=0;
                 jump=false;
             }
             
         }
+    }
+    for (int i=0; i<aliens.size(); i++) {
+        aliens.at(i).x+=0.1;
+        aliens.at(i).z+=0.1;
     }
     glutPostRedisplay();
 }
@@ -589,6 +627,8 @@ int main(int argc, char** argv)
     glutKeyboardFunc(Keyboard);
     
     glutSpecialFunc(Special);
+    glutTimerFunc(0, Timer2, 0);
+    glutTimerFunc(0, Timer, 0);
     glutDisplayFunc(Display);
     glutIdleFunc(Anim);
     
