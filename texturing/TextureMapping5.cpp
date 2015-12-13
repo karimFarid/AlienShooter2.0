@@ -43,14 +43,14 @@ void loadTextureFromFile(char *filename){
     }else if(filename[2]=='a'){
         glGenTextures(1, &texture[4]);               // Create The Texture
         glBindTexture(GL_TEXTURE_2D, texture[4]);
-    }else if(filename[2]=='b'){
+    }else if(filename[3]=='l'){
         glGenTextures(1, &texture[5]);               // Create The Texture
         glBindTexture(GL_TEXTURE_2D, texture[5]);
     }
     else{
         glGenTextures(1, &texture[2]);               // Create The Texture
         glBindTexture(GL_TEXTURE_2D, texture[2]);
-    }w
+    }
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -551,7 +551,7 @@ void Display(void) {
     GLUquadric *quadObj2 = gluNewQuadric();
     gluQuadricTexture(quadObj2, true);
     gluQuadricNormals(quadObj2, GLU_SMOOTH);
-    glTranslatef(0, 1, 0);
+    glTranslatef(-5, 1, -5);
     //glScaled(20, 20, 20);
     gluSphere(quadObj2, 1, 20, 20);
     gluDeleteQuadric(quadObj2);
