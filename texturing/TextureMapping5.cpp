@@ -31,7 +31,7 @@ float shift2=-0.014;
 void loadTextureFromFile(char *filename){
     glShadeModel(GL_FLAT);
     glEnable(GL_DEPTH_TEST);
-   
+    
     RgbImage theTexMap( filename );
     
     // Pixel alignment: each row is word aligned (aligned to a 4 byte boundary)
@@ -56,7 +56,7 @@ void loadTextureFromFile(char *filename){
         glGenTextures(1, &texture[2]);               // Create The Texture
         glBindTexture(GL_TEXTURE_2D, texture[2]);
     }
-
+    
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -141,12 +141,11 @@ public:
         
         glPopMatrix();
         
-
+        
         
     }
 };
 std::vector<Aliens> aliens;
-
 class Vector3f {
     
 public:
@@ -176,6 +175,7 @@ public:
         return Vector3f(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
     }
 };
+Vector3f vector ;
 void RenderHouse(){
     glDisable(GL_LIGHTING);	// Disable lighting
     glEnable(GL_TEXTURE_2D);	// Enable 2D texturing
@@ -299,6 +299,9 @@ public:
         gluLookAt(eye.x, eye.y, eye.z,center.x, center.y, center.z,up.x, up.y, up.z);
     }
 };
+class Bullet{
+    
+};
 Player player;
 void setupLights() {
     
@@ -407,7 +410,6 @@ void Mouse(int button, int state, int x, int y) {
                 //KILL ALIENS HERE
             }
             break;
-            
         case GLUT_RIGHT_BUTTON:
             if (player.center.x>70 && player.center.z<75 && player.center.x<86.5 && player.center.z>70) {
                 std::cout << "Reloaded!!";
@@ -459,7 +461,7 @@ void Timer(int value) {
         a.createAlien(i);
         aliens.push_back(a);
     }
-        glutPostRedisplay();
+    glutPostRedisplay();
     glutTimerFunc(5 * 1000, Timer, 0);
 }
 void Timer2(int value) {
@@ -507,7 +509,7 @@ void Display(void) {
     
     setupLights();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   // glLoadIdentity();
+    // glLoadIdentity();
     
     
 //    drawString(GLUT_BITMAP_HELVETICA_18, "Bullets ", -2, 0, -6);
@@ -522,13 +524,13 @@ void Display(void) {
     for (int i=0; i<blackHoles.size(); i++) {
         blackHoles.at(i).drawBlackHole();
     }
-
+    
     
     for (int i=0; i<aliens.size(); i++) {
         aliens.at(i).drawAlien();
     }
     
-
+    
     
     glPushMatrix();
     glTranslatef(75, 0, 75);
@@ -539,7 +541,7 @@ void Display(void) {
     
     
     glFlush();
-
+    
 }
 void Anim() {
     if (fire>100) {
@@ -609,6 +611,4 @@ int main(int argc, char** argv){
     loadTextureFromFile( filename6 );
     glutMainLoop();
     return 0;
-
-    
-    }
+}
