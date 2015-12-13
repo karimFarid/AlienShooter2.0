@@ -13,17 +13,17 @@ GLuint   texture[6];
 float rotAng;
 bool jump=false;
 int dir=0;
-float eyeX = 72;
+float eyeX = 75.89;
 float eyeY = 1;
-float eyeZ = 72;
-float centerX = 11.6347;
+float eyeZ = 72.7;
+float centerX = 75.22;
 float centerY = 1;
-float centerZ =  0.4;
+float centerZ =  71.96;
 float upX = -0.0472866;
 float upY = 0.998881;
 float upZ = 0.0f;
 int fire=0;
-
+int bullets=10;
 int shift=0;
 float shift2=-0.014;
 #define DEG2RAD(a) (a * 0.0174532925)
@@ -99,7 +99,7 @@ public:
     
     void createAlien(int blackhole){
         x=blackHoles.at(blackhole).x;
-        y=blackHoles.at(blackhole).y;
+        y=blackHoles.at(blackhole).y-0.4;
         z=blackHoles.at(blackhole).z;
         health=100;
         this->blackhole=blackhole;
@@ -149,69 +149,31 @@ std::vector<Aliens> aliens;
 class Vector3f {
     
 public:
-    
     float x, y, z;
     
-    
-    
     Vector3f(float _x = 0.0f, float _y = 0.0f, float _z = 0.0f) {
-        
         x = _x;
-        
         y = _y;
-        
         z = _z;
-        
     }
-    
-    
-    
     Vector3f operator+(const Vector3f &v) const {
-        
         return Vector3f(x + v.x, y + v.y, z + v.z);
-        
     }
-    
-    
-    
     Vector3f operator-(Vector3f &v) {
-        
         return Vector3f(x - v.x, y - v.y, z - v.z);
-        
     }
-    
-    
-    
     Vector3f operator*(float n) {
-        
         return Vector3f(x * n, y * n, z * n);
-        
     }
-    
-    
-    
     Vector3f operator/(float n) {
-        
         return Vector3f(x / n, y / n, z / n);
-        
     }
-    
-    
-    
     Vector3f unit() {
-        
         return *this / sqrt(x * x + y * y + z * z);
-        
     }
-    
-    
-    
     Vector3f cross(Vector3f v) {
-        
         return Vector3f(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
-        
     }
-    
 };
 Vector3f vector ;
 void RenderHouse(){
@@ -236,13 +198,13 @@ void RenderHouse(){
     
 }
 void house(){
-    
+    //right side
     glPushMatrix();
     glColor3f(1, 1, 1);	// Dim the ground texture a bit
     glScaled(1, 0.5, 1);
     RenderHouse();
     glPopMatrix();
-    
+    //front right
     glPushMatrix();
     glColor3f(1, 1, 1);	// Dim the ground texture a bit
     glScaled(0.3, 0.5, 0.3);
@@ -250,7 +212,7 @@ void house(){
     glRotated(90, 0, 1, 0);
     RenderHouse();
     glPopMatrix();
-    
+    //front left
     glPushMatrix();
     glColor3f(1, 1, 1);	// Dim the ground texture a bit
     glScaled(0.3, 0.5, 0.3);
@@ -258,7 +220,7 @@ void house(){
     glRotated(90, 0, 1, 0);
     RenderHouse();
     glPopMatrix();
-    
+    //back inside
     glPushMatrix();
     glColor3f(0, 1, 1);	// Dim the ground texture a bit
     glScaled(1, 0.5, 1);
@@ -266,7 +228,7 @@ void house(){
     glRotated(90, 0, 1, 0);
     RenderHouse();
     glPopMatrix();
-    
+    //back outside
     glPushMatrix();
     glColor3f(1, 1, 1);	// Dim the ground texture a bit
     glScaled(1, 0.5, 1);
@@ -274,7 +236,7 @@ void house(){
     glRotated(90, 0, 1, 0);
     RenderHouse();
     glPopMatrix();
-    
+    //top
     glPushMatrix();
     glColor3f(1, 1, 1);	// Dim the ground texture a bit;
     glScaled(1, 0.5, 1);
@@ -282,7 +244,7 @@ void house(){
     glRotated(90, 1, 0, 0);
     RenderHouse();
     glPopMatrix();
-    
+    //left side
     
     glPushMatrix();
     glColor3f(1, 1, 1);
@@ -293,103 +255,54 @@ void house(){
     glColor3f(0, 0, 1);
     
 }
-class Camera {
+class Player {
     
 public:
-    
     Vector3f eye, center, up;
     
-    
-    
-    Camera() {
-        
+    Player() {
         eye = Vector3f(eyeX, eyeY, eyeZ);
-        
         center = Vector3f(centerX, centerY, centerZ);
-        
         up = Vector3f(upX, upY, upZ);
-        
     }
-    
-    
-    
     void moveX(float d) {
-        
         Vector3f right = up.cross(center - eye).unit();
-        
+        right.y=0;
         eye = eye + right * d;
-        
         center = center + right * d;
-        
     }
-    
     void moveY(float d) {
-        
         eye = eye + up.unit() * d;
-        
         center = center + up.unit() * d;
-        
     }
-    
     void moveZ(float d) {
-        
         Vector3f view = (center - eye).unit();
-        
+        view.y=0;
         eye = eye + view * d;
-        
         center = center + view * d;
-        
-        
-        
     }
-    
     void rotateX(float a) {
-        
         Vector3f view = (center - eye).unit();
-        
         Vector3f right = up.cross(view).unit();
-        
         view = view * cos(DEG2RAD(a)) + up * sin(DEG2RAD(a));
-        
         up = view.cross(right);
-        
         center = eye + view;
-        
     }
-    
     void rotateY(float a) {
-        
         Vector3f view = (center - eye).unit();
-        
         Vector3f right = up.cross(view).unit();
-        
         view = view * cos(DEG2RAD(a)) + right * sin(DEG2RAD(a));
-        
         right = view.cross(up);
-        
         center = eye + view;
-        
     }
-    
     void look() {
-        
-        gluLookAt(
-                  
-                  eye.x, eye.y, eye.z,
-                  
-                  center.x, center.y, center.z,
-                  
-                  up.x, up.y, up.z
-                  
-                  );
-        
+        gluLookAt(eye.x, eye.y, eye.z,center.x, center.y, center.z,up.x, up.y, up.z);
     }
-    
 };
 class Bullet{
     
 };
-Camera camera;
+Player player;
 void setupLights() {
     
     GLfloat ambient[] = { 0.7f, 0.7f, 0.7, 1.0f };
@@ -433,29 +346,24 @@ void setupCamera() {
     
     glLoadIdentity();
     
-    camera.look();
+    player.look();
     
 }
 void Keyboard(unsigned char key, int x, int y) {
-    
     float d = 2;
     switch (key) {
         case 'w':
-            camera.rotateX(d);
+            player.rotateX(d);
             break;
-            
         case 's':
-            camera.rotateX(-d);
+            player.rotateX(-d);
             break;
-            
         case 'a':
-            camera.rotateY(d);
+            player.rotateY(d);
             break;
-            
         case 'd':
-            camera.rotateY(-d);
+            player.rotateY(-d);
             break;
-            
         case ' ':
             jump=true;
             dir=1;
@@ -464,38 +372,52 @@ void Keyboard(unsigned char key, int x, int y) {
     glutPostRedisplay();
 }
 void Special(int key, int x, int y) {
-    
     float a = 0.5;
     switch (key) {
-            
-            
         case GLUT_KEY_UP:
-            if (camera.center.x>-50) {
-                camera.moveZ(a);
-                break;
-            }
-            
-            
-        case GLUT_KEY_DOWN:
-            if (camera.center.x<50) {
-                camera.moveZ(-a);
-                break;
-            }
-        case GLUT_KEY_LEFT:
-            if (camera.center.z<79) {
-                camera.moveX(a);
-                break;
-            }
-            
-        case GLUT_KEY_RIGHT:
-            if (camera.center.z>-79) {
-                camera.moveX(-a);
-                break;
+            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
+//                if (player.eye.x>70 && player.eye.x<86.5 && player.eye.z<70 && player.eye.z>65) {
+//                    if (player.center.x>70 && player.center.z<75 && player.center.x<86.5 && player.center.z>70) {
+                        player.moveZ(a);
+//                    }
+//                }
             }
             break;
-            
-            
+       case GLUT_KEY_DOWN:
+            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
+            player.moveZ(-a);
+            }
+            break;
+        case GLUT_KEY_LEFT:
+            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79 ) {
+                player.moveX(a);
+            }
+            break;
+        case GLUT_KEY_RIGHT:
+            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
+                player.moveX(-a);
+            }
+            break;
     }
+    glutPostRedisplay();
+}
+void Mouse(int button, int state, int x, int y) {
+    switch (button) {
+        case GLUT_LEFT_BUTTON:
+            if (bullets>0) {
+                bullets--;
+                std::cout << bullets;
+                //KILL ALIENS HERE
+            }
+            break;
+        case GLUT_RIGHT_BUTTON:
+            if (player.center.x>70 && player.center.z<75 && player.center.x<86.5 && player.center.z>70) {
+                std::cout << "Reloaded!!";
+                bullets=10;
+            }
+            break;
+    }
+    
     glutPostRedisplay();
 }
 void resizeWindow(int x, int y){
@@ -566,7 +488,7 @@ void sky(){
 }
 void aim(){
     glPushMatrix();
-    glTranslatef(camera.center.x, camera.center.y, camera.center.z);
+    glTranslatef(player.center.x, player.center.y, player.center.z);
     glColor3f(1.0f, 0.0f, 0.0f);
     glScaled(0.001, 0.001, 0.001);
     glutSolidSphere(5, 25, 25);
@@ -575,12 +497,24 @@ void aim(){
     RenderGround();
     glPopMatrix();
 }
+void drawString (void * font, std::string s, float x, float y, float z){
+    unsigned int i;
+    glRasterPos3f(x, y, z);
+    
+    for (i = 0; i < s.length(); i++)
+        glutBitmapCharacter (font, s[i]);
+}
 void Display(void) {
     setupCamera();
     
     setupLights();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // glLoadIdentity();
+    
+    
+//    drawString(GLUT_BITMAP_HELVETICA_18, "Bullets ", -2, 0, -6);
+//    s = std::to_string(bs);
+//    drawString(GLUT_BITMAP_HELVETICA_18, s, -0.18, 0, -6);
     
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
@@ -616,13 +550,13 @@ void Anim() {
     fire++;
     if(jump){
         if(dir ==1){
-            camera.moveY(0.1);
-            if (camera.eye.y>=5) {
+            player.moveY(0.02);
+            if (player.eye.y>=2.4) {
                 dir=2;
             }
         }else if (dir == 2){
-            camera.moveY(-0.1);
-            if (camera.eye.y<=1){
+            player.moveY(-0.02);
+            if (player.eye.y<=1){
                 dir=0;
                 jump=false;
             }
@@ -643,11 +577,12 @@ int main(int argc, char** argv){
     
     glutCreateWindow("Alien Shooter 2.0");
     glutKeyboardFunc(Keyboard);
-    
+    glutMouseFunc(Mouse);
     glutSpecialFunc(Special);
     glutTimerFunc(0, Timer2, 0);
     glutTimerFunc(0, Timer, 0);
     glutDisplayFunc(Display);
+    
     glutIdleFunc(Anim);
     
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
