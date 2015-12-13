@@ -12,12 +12,11 @@ GLuint   texture[6];
 float rotAng;
 bool jump=false;
 int dir=0;
-float eyeX = 12.6336;
-bool flag=false;
-float eyeY = 0.5;
-float eyeZ = 0.4;
+float eyeX = 72;
+float eyeY = 1;
+float eyeZ = 72;
 float centerX = 11.6347;
-float centerY = 0.5;
+float centerY = 1;
 float centerZ =  0.4;
 float upX = -0.0472866;
 float upY = 0.998881;
@@ -181,7 +180,6 @@ public:
     }
     
 };
-
 void RenderHouse(){
     glDisable(GL_LIGHTING);	// Disable lighting
     glEnable(GL_TEXTURE_2D);	// Enable 2D texturing
@@ -261,7 +259,6 @@ void house(){
     glColor3f(0, 0, 1);
     
 }
-
 class Camera {
     
 public:
@@ -402,7 +399,6 @@ void setupCamera() {
     camera.look();
     
 }
-
 void Keyboard(unsigned char key, int x, int y) {
     
     float d = 2;
@@ -520,7 +516,7 @@ void Display(void) {
     gluQuadricTexture(quadObj, true);
     gluQuadricNormals(quadObj, GLU_SMOOTH);
     glTranslatef(0.866025, 0.866025, 0.866025);
-    glScaled(20, 20, 20);
+    glScaled(16, 16, 16);
     gluSphere(quadObj, 10, 20, 20);
     gluDeleteQuadric(quadObj);
     glPopMatrix();
@@ -541,7 +537,11 @@ void Display(void) {
     RenderGround();
     glPopMatrix();
     
+    glPushMatrix();
+    glTranslatef(75, 0, 75);
+    glRotated(135, 0, 1, 0);
     house();
+    glPopMatrix();
     
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[5]);
