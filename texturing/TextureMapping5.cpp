@@ -23,7 +23,7 @@ float upX = -0.0472866;
 float upY = 0.998881;
 float upZ = 0.0f;
 int fire=0;
-
+int bullets=10;
 int shift=0;
 float shift2=-0.014;
 #define DEG2RAD(a) (a * 0.0174532925)
@@ -298,7 +298,6 @@ class Player {
 public:
     
     Vector3f eye, center, up;
-    int bullets=10;
     
     
     Player() {
@@ -501,12 +500,17 @@ void Special(int key, int x, int y) {
 void Mouse(int button, int state, int x, int y) {
     switch (button) {
         case GLUT_LEFT_BUTTON:
-            //
+            if (bullets>0) {
+                bullets--;
+                std::cout << bullets;
+                //KILL ALIENS HERE
+            }
             break;
             
         case GLUT_RIGHT_BUTTON:
             if (player.center.x>70 && player.center.z<75 && player.center.x<86.5 && player.center.z>70) {
                 std::cout << "Reloaded!!";
+                bullets=10;
             }
             break;
     }
