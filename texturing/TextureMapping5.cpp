@@ -99,7 +99,7 @@ public:
     
     void createAlien(int blackhole){
         x=blackHoles.at(blackhole).x;
-        y=blackHoles.at(blackhole).y;
+        y=blackHoles.at(blackhole).y-0.4;
         z=blackHoles.at(blackhole).z;
         health=100;
         this->blackhole=blackhole;
@@ -214,7 +214,6 @@ public:
     }
     
 };
-Vector3f vector;
 void RenderHouse(){
     glDisable(GL_LIGHTING);	// Disable lighting
     glEnable(GL_TEXTURE_2D);	// Enable 2D texturing
@@ -294,7 +293,7 @@ void house(){
     glColor3f(0, 0, 1);
     
 }
-class Camera {
+class Player {
     
 public:
     
@@ -302,7 +301,7 @@ public:
     
     
     
-    Camera() {
+    Player() {
         
         eye = Vector3f(eyeX, eyeY, eyeZ);
         
@@ -317,6 +316,7 @@ public:
     void moveX(float d) {
         
         Vector3f right = up.cross(center - eye).unit();
+        right.y=0;
         
         eye = eye + right * d;
         
@@ -335,7 +335,7 @@ public:
     void moveZ(float d) {
             
             Vector3f view = (center - eye).unit();
-            
+            view.y=0;
             eye = eye + view * d;
             
             center = center + view * d;
@@ -349,10 +349,11 @@ public:
         Vector3f view = (center - eye).unit();
         
         Vector3f right = up.cross(view).unit();
-        
+
         view = view * cos(DEG2RAD(a)) + up * sin(DEG2RAD(a));
         
         up = view.cross(right);
+        
         
         center = eye + view;
         
@@ -363,6 +364,7 @@ public:
         Vector3f view = (center - eye).unit();
         
         Vector3f right = up.cross(view).unit();
+        
         
         view = view * cos(DEG2RAD(a)) + right * sin(DEG2RAD(a));
         
@@ -387,7 +389,7 @@ public:
     }
     
 };
-Camera camera;
+Player player;
 void setupLights() {
     
     GLfloat ambient[] = { 0.7f, 0.7f, 0.7, 1.0f };
@@ -431,7 +433,7 @@ void setupCamera() {
     
     glLoadIdentity();
     
-    camera.look();
+    player.look();
     
 }
 void Keyboard(unsigned char key, int x, int y) {
@@ -439,19 +441,19 @@ void Keyboard(unsigned char key, int x, int y) {
     float d = 2;
     switch (key) {
         case 'w':
-            camera.rotateX(d);
+            player.rotateX(d);
             break;
             
         case 's':
-            camera.rotateX(-d);
+            player.rotateX(-d);
             break;
             
         case 'a':
-            camera.rotateY(d);
+            player.rotateY(d);
             break;
             
         case 'd':
-            camera.rotateY(-d);
+            player.rotateY(-d);
             break;
             
         case ' ':
@@ -468,26 +470,26 @@ void Special(int key, int x, int y) {
          
             
         case GLUT_KEY_UP:
-            if (camera.center.x>-50) {
-                camera.moveZ(a);
+            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
+                player.moveZ(a);
                 break;
             }
            
             
         case GLUT_KEY_DOWN:
-            if (camera.center.x<50) {
-            camera.moveZ(-a);
+            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
+            player.moveZ(-a);
             break;
             }
         case GLUT_KEY_LEFT:
-            if (camera.center.z<79) {
-                camera.moveX(a);
+            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79 ) {
+                player.moveX(a);
                 break;
             }
             
         case GLUT_KEY_RIGHT:
-            if (camera.center.z>-79) {
-                camera.moveX(-a);
+            if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
+                player.moveX(-a);
                 break;
             }
             break;
@@ -564,7 +566,7 @@ void sky(){
 }
 void aim(){
     glPushMatrix();
-    glTranslatef(camera.center.x, camera.center.y, camera.center.z);
+    glTranslatef(player.center.x, player.center.y, player.center.z);
     glColor3f(1.0f, 0.0f, 0.0f);
     glScaled(0.001, 0.001, 0.001);
     glutSolidSphere(5, 25, 25);
@@ -582,12 +584,6 @@ void Display(void) {
     
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
-    vector = (camera.center - camera.eye).unit();
-    if(!((vector*fire).x==-30&&(vector*fire).z==0)){
-        Aliens a1;
-        a1.createAlien(0);
-        a1.drawAlien();
-    }
     sky();
     aim();
     
@@ -620,13 +616,13 @@ void Anim() {
     fire++;
     if(jump){
         if(dir ==1){
-            camera.moveY(0.1);
-            if (camera.eye.y>=5) {
+            player.moveY(0.1);
+            if (player.eye.y>=5) {
                 dir=2;
             }
         }else if (dir == 2){
-            camera.moveY(-0.1);
-            if (camera.eye.y<=1){
+            player.moveY(-0.1);
+            if (player.eye.y<=1){
                 dir=0;
                 jump=false;
             }
@@ -639,8 +635,7 @@ void Anim() {
     }
     glutPostRedisplay();
 }
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv){
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(1200, 700);
