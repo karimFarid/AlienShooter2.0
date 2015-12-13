@@ -236,13 +236,13 @@ void RenderHouse(){
     
 }
 void house(){
-    
+    //right side
     glPushMatrix();
     glColor3f(1, 1, 1);	// Dim the ground texture a bit
     glScaled(1, 0.5, 1);
     RenderHouse();
     glPopMatrix();
-    
+    //front right
     glPushMatrix();
     glColor3f(1, 1, 1);	// Dim the ground texture a bit
     glScaled(0.3, 0.5, 0.3);
@@ -250,7 +250,7 @@ void house(){
     glRotated(90, 0, 1, 0);
     RenderHouse();
     glPopMatrix();
-    
+    //front left
     glPushMatrix();
     glColor3f(1, 1, 1);	// Dim the ground texture a bit
     glScaled(0.3, 0.5, 0.3);
@@ -258,7 +258,7 @@ void house(){
     glRotated(90, 0, 1, 0);
     RenderHouse();
     glPopMatrix();
-    
+    //back inside
     glPushMatrix();
     glColor3f(0, 1, 1);	// Dim the ground texture a bit
     glScaled(1, 0.5, 1);
@@ -266,7 +266,7 @@ void house(){
     glRotated(90, 0, 1, 0);
     RenderHouse();
     glPopMatrix();
-    
+    //back outside
     glPushMatrix();
     glColor3f(1, 1, 1);	// Dim the ground texture a bit
     glScaled(1, 0.5, 1);
@@ -274,7 +274,7 @@ void house(){
     glRotated(90, 0, 1, 0);
     RenderHouse();
     glPopMatrix();
-    
+    //top
     glPushMatrix();
     glColor3f(1, 1, 1);	// Dim the ground texture a bit;
     glScaled(1, 0.5, 1);
@@ -282,7 +282,7 @@ void house(){
     glRotated(90, 1, 0, 0);
     RenderHouse();
     glPopMatrix();
-    
+    //left side
     
     glPushMatrix();
     glColor3f(1, 1, 1);
@@ -298,7 +298,7 @@ class Player {
 public:
     
     Vector3f eye, center, up;
-    
+    int bullets=10;
     
     
     Player() {
@@ -498,6 +498,21 @@ void Special(int key, int x, int y) {
     }
     glutPostRedisplay();
 }
+void Mouse(int button, int state, int x, int y) {
+    switch (button) {
+        case GLUT_LEFT_BUTTON:
+            //
+            break;
+            
+        case GLUT_RIGHT_BUTTON:
+            if (player.center.x>70 && player.center.z<75 && player.center.x<86.5 && player.center.z>70) {
+                std::cout << "Reloaded!!";
+            }
+            break;
+    }
+    
+    glutPostRedisplay();
+}
 void resizeWindow(int x, int y){
     if (y == 0 || x == 0) return;  //Nothing is visible then, so return
     //Set a new projection matrix
@@ -575,12 +590,24 @@ void aim(){
     RenderGround();
     glPopMatrix();
 }
+void drawString (void * font, std::string s, float x, float y, float z){
+    unsigned int i;
+    glRasterPos3f(x, y, z);
+    
+    for (i = 0; i < s.length(); i++)
+        glutBitmapCharacter (font, s[i]);
+}
 void Display(void) {
     setupCamera();
     
     setupLights();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    // glLoadIdentity();
+    
+    
+//    drawString(GLUT_BITMAP_HELVETICA_18, "Bullets ", -2, 0, -6);
+//    s = std::to_string(bs);
+//    drawString(GLUT_BITMAP_HELVETICA_18, s, -0.18, 0, -6);
     
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
@@ -616,12 +643,12 @@ void Anim() {
     fire++;
     if(jump){
         if(dir ==1){
-            player.moveY(0.1);
-            if (player.eye.y>=5) {
+            player.moveY(0.02);
+            if (player.eye.y>=2.4) {
                 dir=2;
             }
         }else if (dir == 2){
-            player.moveY(-0.1);
+            player.moveY(-0.02);
             if (player.eye.y<=1){
                 dir=0;
                 jump=false;
@@ -643,11 +670,12 @@ int main(int argc, char** argv){
     
     glutCreateWindow("Alien Shooter 2.0");
     glutKeyboardFunc(Keyboard);
-    
+    glutMouseFunc(Mouse);
     glutSpecialFunc(Special);
     glutTimerFunc(0, Timer2, 0);
     glutTimerFunc(0, Timer, 0);
     glutDisplayFunc(Display);
+    
     glutIdleFunc(Anim);
     
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
