@@ -23,6 +23,8 @@ float upX = -0.0472866;
 float upY = 0.998881;
 float upZ = 0.0f;
 
+int shift=0;
+float shift2=-0.014;
 #define DEG2RAD(a) (a * 0.0174532925)
 
 void loadTextureFromFile(char *filename){
@@ -96,7 +98,7 @@ public:
     
     void createAlien(int blackhole){
         x=blackHoles.at(blackhole).x;
-        y=blackHoles.at(blackhole).y - 0.8;
+        y=blackHoles.at(blackhole).y;
         z=blackHoles.at(blackhole).z;
         health=100;
         this->blackhole=blackhole;
@@ -528,18 +530,21 @@ void RenderGround(){
     
 }
 void Timer(int value) {
-    Aliens a;
-    a.createAlien(0);
-    aliens.push_back(a);
-    glutPostRedisplay();
+    for (int i=0; i<blackHoles.size(); i++){
+        Aliens a;
+        a.createAlien(i);
+        aliens.push_back(a);
+    }
+        glutPostRedisplay();
     glutTimerFunc(5 * 1000, Timer, 0);
 }
 void Timer2(int value) {
     BlackHoles b;
-    b.createBlackHole(-5, 1, -5);
+    b.createBlackHole(-5, 1, -5+shift);
     blackHoles.push_back(b);
     glutPostRedisplay();
-    glutTimerFunc(60 * 1000, Timer, 0);
+    shift+=10;
+    glutTimerFunc(60 * 1000, Timer2, 0);
 }
 void Display(void) {
     setupCamera();
@@ -612,7 +617,7 @@ void Anim() {
     }
     for (int i=0; i<aliens.size(); i++) {
         aliens.at(i).x+=0.1;
-        aliens.at(i).z+=0.1;
+        aliens.at(i).z+=0.1+ (shift2*aliens.at(i).blackhole);
     }
     glutPostRedisplay();
 }
