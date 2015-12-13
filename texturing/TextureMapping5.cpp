@@ -13,12 +13,12 @@ GLuint   texture[6];
 float rotAng;
 bool jump=false;
 int dir=0;
-float eyeX = 72;
+float eyeX = 75.89;
 float eyeY = 1;
-float eyeZ = 72;
-float centerX = 11.6347;
+float eyeZ = 72.7;
+float centerX = 75.22;
 float centerY = 1;
-float centerZ =  0.4;
+float centerZ =  71.96;
 float upX = -0.0472866;
 float upY = 0.998881;
 float upZ = 0.0f;
@@ -150,69 +150,31 @@ std::vector<Aliens> aliens;
 class Vector3f {
     
 public:
-    
     float x, y, z;
     
-    
-    
     Vector3f(float _x = 0.0f, float _y = 0.0f, float _z = 0.0f) {
-        
         x = _x;
-        
         y = _y;
-        
         z = _z;
-        
     }
-    
-    
-    
     Vector3f operator+(const Vector3f &v) const {
-        
         return Vector3f(x + v.x, y + v.y, z + v.z);
-        
     }
-    
-    
-    
     Vector3f operator-(Vector3f &v) {
-        
         return Vector3f(x - v.x, y - v.y, z - v.z);
-        
     }
-    
-    
-    
     Vector3f operator*(float n) {
-        
         return Vector3f(x * n, y * n, z * n);
-        
     }
-    
-    
-    
     Vector3f operator/(float n) {
-        
         return Vector3f(x / n, y / n, z / n);
-        
     }
-    
-    
-    
     Vector3f unit() {
-        
         return *this / sqrt(x * x + y * y + z * z);
-        
     }
-    
-    
-    
     Vector3f cross(Vector3f v) {
-        
         return Vector3f(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
-        
     }
-    
 };
 void RenderHouse(){
     glDisable(GL_LIGHTING);	// Disable lighting
@@ -296,97 +258,46 @@ void house(){
 class Player {
     
 public:
-    
     Vector3f eye, center, up;
     
-    
     Player() {
-        
         eye = Vector3f(eyeX, eyeY, eyeZ);
-        
         center = Vector3f(centerX, centerY, centerZ);
-        
         up = Vector3f(upX, upY, upZ);
-        
     }
-    
-    
-    
     void moveX(float d) {
-        
         Vector3f right = up.cross(center - eye).unit();
         right.y=0;
-        
         eye = eye + right * d;
-        
         center = center + right * d;
-        
     }
-    
     void moveY(float d) {
-        
         eye = eye + up.unit() * d;
-        
         center = center + up.unit() * d;
-        
     }
-    
     void moveZ(float d) {
-            
-            Vector3f view = (center - eye).unit();
-            view.y=0;
-            eye = eye + view * d;
-            
-            center = center + view * d;
-        
-
-        
+        Vector3f view = (center - eye).unit();
+        view.y=0;
+        eye = eye + view * d;
+        center = center + view * d;
     }
-    
     void rotateX(float a) {
-        
         Vector3f view = (center - eye).unit();
-        
         Vector3f right = up.cross(view).unit();
-
         view = view * cos(DEG2RAD(a)) + up * sin(DEG2RAD(a));
-        
         up = view.cross(right);
-        
-        
         center = eye + view;
-        
     }
-    
     void rotateY(float a) {
-        
         Vector3f view = (center - eye).unit();
-        
         Vector3f right = up.cross(view).unit();
-        
-        
         view = view * cos(DEG2RAD(a)) + right * sin(DEG2RAD(a));
-        
         right = view.cross(up);
-        
         center = eye + view;
-        
     }
-    
     void look() {
-        
-        gluLookAt(
-                  
-                  eye.x, eye.y, eye.z,
-                  
-                  center.x, center.y, center.z,
-                  
-                  up.x, up.y, up.z
-                  
-                  );
-        
+        gluLookAt(eye.x, eye.y, eye.z,center.x, center.y, center.z,up.x, up.y, up.z);
     }
-    
 };
 Player player;
 void setupLights() {
@@ -436,25 +347,20 @@ void setupCamera() {
     
 }
 void Keyboard(unsigned char key, int x, int y) {
-    
     float d = 2;
     switch (key) {
         case 'w':
             player.rotateX(d);
             break;
-            
         case 's':
             player.rotateX(-d);
             break;
-            
         case 'a':
             player.rotateY(d);
             break;
-            
         case 'd':
             player.rotateY(-d);
             break;
-            
         case ' ':
             jump=true;
             dir=1;
@@ -463,37 +369,32 @@ void Keyboard(unsigned char key, int x, int y) {
     glutPostRedisplay();
 }
 void Special(int key, int x, int y) {
-    
     float a = 0.5;
     switch (key) {
-         
-            
         case GLUT_KEY_UP:
             if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
-                player.moveZ(a);
-                break;
+//                if (player.eye.x>70 && player.eye.x<86.5 && player.eye.z<70 && player.eye.z>65) {
+//                    if (player.center.x>70 && player.center.z<75 && player.center.x<86.5 && player.center.z>70) {
+                        player.moveZ(a);
+//                    }
+//                }
             }
-           
-            
-        case GLUT_KEY_DOWN:
+            break;
+       case GLUT_KEY_DOWN:
             if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
             player.moveZ(-a);
-            break;
             }
+            break;
         case GLUT_KEY_LEFT:
             if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79 ) {
                 player.moveX(a);
-                break;
             }
-            
+            break;
         case GLUT_KEY_RIGHT:
             if (player.center.x>-80 && player.center.z<79 && player.center.x<80 && player.center.z>-79) {
                 player.moveX(-a);
-                break;
             }
             break;
-          
-            
     }
     glutPostRedisplay();
 }

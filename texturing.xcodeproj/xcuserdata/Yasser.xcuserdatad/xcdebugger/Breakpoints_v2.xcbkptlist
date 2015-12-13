@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "texturing/TextureMapping5.cpp"
-            timestampString = "471699519.436611"
+            timestampString = "471701084.694019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "378"
-            endingLineNumber = "378"
+            startingLineNumber = "299"
+            endingLineNumber = "299"
             landmarkName = "look()"
             landmarkType = "5">
          </BreakpointContent>
